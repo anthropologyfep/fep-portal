@@ -1,0 +1,3416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Department of Anthropology Field Engagement Portal | SUNY New Paltz</title>
+
+  <style>
+
+    /* =========================================================
+       SUNY New Paltz-inspired embedded styling (no external CSS)
+       Primary palette (official): Navy #003e7e, Orange #f58426
+       ========================================================= */
+    :root{
+      --np-navy:#003e7e;
+      --np-orange:#f58426;
+      --np-gold:#fdb924;
+      --np-sky:#00a5d9;
+      --np-gray-900:#0f172a;
+      --np-gray-800:#1f2937;
+      --np-gray-700:#334155;
+      --np-gray-600:#475569;
+      --np-gray-500:#64748b;
+      --np-gray-300:#cbd5e1;
+      --np-gray-200:#e2e8f0;
+      --np-gray-100:#f1f5f9;
+      --np-white:#ffffff;
+
+      --radius:14px;
+      --radius-sm:10px;
+      --shadow: 0 10px 30px rgba(2, 6, 23, .10);
+      --shadow-soft: 0 6px 16px rgba(2, 6, 23, .08);
+      --ring: 0 0 0 4px rgba(0, 62, 126, .18);
+
+      --max: 1120px;
+      --pad: 18px;
+      --pad-lg: 26px;
+      --line: 1px solid rgba(15, 23, 42, .10);
+
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--np-gray-900);
+      background:
+        radial-gradient(1100px 700px at 15% 0%, rgba(0,165,217,.10), transparent 60%),
+        radial-gradient(1000px 650px at 85% 10%, rgba(245,132,38,.12), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #ffffff 100%);
+    }
+
+    /* Accessibility */
+    a { color: inherit; text-decoration: none; }
+    a:focus, button:focus, input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: var(--ring);
+      border-color: rgba(0,62,126,.55) !important;
+    }
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+
+    /* Top brand bar */
+    .topbar{
+      background: var(--np-navy);
+      color: var(--np-white);
+      border-bottom: 4px solid var(--np-orange);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 8px var(--pad);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    
+    /* Header Back Button */
+    .header-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.95);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s ease;
+      text-decoration: none;
+    }
+    .header-back-btn:hover {
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.35);
+      transform: translateX(-2px);
+    }
+    .header-back-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+    .header-back-btn.hidden {
+      display: none;
+    }
+    .brand-mark{
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06)),
+        linear-gradient(135deg, var(--np-orange), var(--np-gold));
+      display:grid;
+      place-items:center;
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+      flex: 0 0 auto;
+    }
+    .brand-mark svg{ display:block; }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+      min-width: 0;
+      flex: 1 1 0;
+      overflow: hidden;
+    }
+    .brand-text .line1{
+      font-weight: 700;
+      letter-spacing:.2px;
+      font-size: 12px;
+      opacity:.92;
+    }
+    .brand-text .line2{
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .top-actions{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+      font-size: 12px;
+      color: rgba(255,255,255,.92);
+      white-space: nowrap;
+    }
+    .pill strong{ font-weight: 750; color: #fff; }
+    .pill .dot{
+      width: 8px; height:8px; border-radius:999px;
+      background: #34d399;
+      box-shadow: 0 0 0 3px rgba(52,211,153,.18);
+    }
+
+    /* Google Sheets sync indicator */
+    .sync-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      font-size: 11px;
+      color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.18);
+      white-space: nowrap;
+    }
+    .sync-indicator.syncing .sync-dot {
+      background: #fbbf24;
+      animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .sync-indicator.synced .sync-dot {
+      background: #34d399;
+    }
+    .sync-indicator.error .sync-dot {
+      background: #ef4444;
+    }
+    .sync-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+
+    /* Universal Back Button */
+
+    /* Layout */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px var(--pad) 60px;
+    }
+
+    /* Page header inside content */
+    .mast{
+      margin-top: 20px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .mast h1{
+      margin:0;
+      font-size: 24px;
+      letter-spacing:-.2px;
+    }
+    .mast p{
+      margin:8px 0 0;
+      color: var(--np-gray-600);
+      max-width: 70ch;
+    }
+
+    /* Cards */
+    .card{
+      background: var(--np-white);
+      border: var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      height: fit-content;
+    }
+    .card.pad{ 
+      padding: var(--pad-lg);
+    }
+    /* Remove margins from last children in cards to prevent gaps */
+    .card.pad > *:last-child,
+    .card > div:last-child > *:last-child,
+    .card-head + div > *:last-child {
+      margin-bottom: 0 !important;
+    }
+    .card .list:last-child li:last-child {
+      margin-bottom: 0 !important;
+    }
+    .card-head{
+      padding: 18px var(--pad-lg);
+      border-bottom: var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+    }
+    .card-head h2{
+      margin:0;
+      font-size: 19px;
+      letter-spacing:-.3px;
+      font-weight: 700;
+      color: var(--np-gray-900);
+    }
+    .card-head .sub{
+      color: var(--np-gray-600);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Buttons / Links */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 18px;
+      border-radius: 11px;
+      border: 1px solid rgba(15,23,42,.12);
+      background: #fff;
+      color: var(--np-gray-900);
+      font-weight: 650;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(2,6,23,.06);
+      cursor:pointer;
+      transition: all .12s ease;
+      user-select:none;
+      text-decoration: none;
+    }
+    .btn:hover{ 
+      transform: translateY(-1px); 
+      box-shadow: 0 6px 16px rgba(2,6,23,.12); 
+      border-color: rgba(15,23,42,.20); 
+    }
+    .btn:active{ 
+      transform: translateY(0px); 
+      box-shadow: 0 2px 8px rgba(2,6,23,.07); 
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, #003e7e 0%, #002e5e 100%);
+      border-color: rgba(0,62,126,.7);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,62,126,.25);
+    }
+    .btn.primary:hover{ 
+      border-color: var(--np-orange); 
+      box-shadow: 0 6px 16px rgba(0,62,126,.35);
+    }
+    .btn.orange{
+      background: linear-gradient(180deg, #f58426 0%, #d16d1a 100%);
+      border-color: rgba(245,132,38,.7);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(245,132,38,.25);
+    }
+    .btn.orange:hover{
+      box-shadow: 0 6px 16px rgba(245,132,38,.35);
+    }
+    .btn.ghost{
+      background: transparent;
+      box-shadow:none;
+      border: 1px solid rgba(15,23,42,.16);
+    }
+    .btn.ghost:hover{
+      background: rgba(15,23,42,.04);
+    }
+    .btn.small{ padding: 9px 14px; border-radius: 9px; font-size: 13px; }
+    .link{
+      color: var(--np-navy);
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    /* Grid sections */
+    .grid{
+      display:grid;
+      gap: 16px;
+      align-items: start;
+    }
+    .grid.cols-2{
+      grid-template-columns: 1.2fr .8fr;
+    }
+    @media (max-width: 980px){
+      .grid.cols-2{ grid-template-columns: 1fr; }
+      .top-actions{ flex-wrap: wrap; }
+    }
+
+    /* Main content sections (CSS-only routing) */
+    .page{
+      display:none;
+      animation: fadeIn .16s ease-out;
+    }
+    @keyframes fadeIn{
+      from{ opacity:0; transform: translateY(2px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* Default route: show login when no hash is present */
+    body:not(:target) .page-login{ display:block; }
+    /* When any hash exists, show the matching target section */
+    #login:target ~ .wrap .page-login,
+    #register:target ~ .wrap .page-register,
+    #home:target ~ .wrap .page-home,
+    #requirements:target ~ .wrap .page-req,
+    #record:target ~ .wrap .page-record,
+    #submit:target ~ .wrap .page-submit,
+    #submitresult:target ~ .wrap .page-submitresult,
+    #admin:target ~ .wrap .page-admin{
+      display:block;
+    }
+
+    /* Hide the anchor targets themselves */
+    .route{
+      position:absolute;
+      top:0; left:0;
+      width:1px; height:1px;
+      overflow:hidden;
+    }
+
+    /* Form styling */
+    .form{
+      display:grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 720px){
+      .row{ grid-template-columns: 1fr; }
+    }
+    label{
+      display:block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--np-gray-700);
+      margin-bottom: 6px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,.14);
+      background: #fff;
+      font: inherit;
+      font-size: 14px;
+      color: var(--np-gray-900);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+    .hint{
+      font-size: 12px;
+      color: var(--np-gray-600);
+      margin-top: 6px;
+      line-height: 1.35;
+    }
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .mini-menu{
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      z-index: 80;
+    }
+
+
+    /* Alerts */
+    .notice{
+      border-radius: 14px;
+      border: 1px solid rgba(0,62,126,.18);
+      background: rgba(0,62,126,.06);
+      padding: 14px 14px;
+      color: var(--np-gray-800);
+      line-height: 1.45;
+    }
+    .notice strong{ color: var(--np-navy); }
+    .notice.orange{
+      border-color: rgba(245,132,38,.25);
+      background: rgba(245,132,38,.10);
+    }
+
+    /* Lists */
+    .list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--np-gray-800);
+      line-height: 1.55;
+    }
+    .list li{ margin: 6px 0; }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,165,217,.12);
+      border: 1px solid rgba(0,165,217,.22);
+      color: rgba(15,23,42,.85);
+      font-weight: 750;
+      font-size: 12px;
+    }
+    .kicker .bar{
+      width: 10px; height: 10px; border-radius:999px;
+      background: var(--np-sky);
+    }
+
+    /* Table */
+    table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow:hidden;
+      border-radius: 14px;
+      border: var(--line);
+      background: #fff;
+    }
+    thead th{
+      text-align:left;
+      font-size: 12px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: rgba(15,23,42,.72);
+      background: rgba(241,245,249,.85);
+      padding: 12px 12px;
+      border-bottom: var(--line);
+    }
+    tbody td{
+      padding: 12px 12px;
+      border-bottom: var(--line);
+      vertical-align: top;
+      color: var(--np-gray-800);
+      font-size: 14px;
+    }
+    tbody tr:last-child td{ border-bottom: none; }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .status.done{
+      background: rgba(52,211,153,.16);
+      border-color: rgba(52,211,153,.28);
+      color: rgba(6,78,59,.92);
+    }
+    .status.pending{
+      background: rgba(245,132,38,.16);
+      border-color: rgba(245,132,38,.28);
+      color: rgba(124,45,18,.92);
+    }
+    .status.missing{
+      background: rgba(148,163,184,.18);
+      border-color: rgba(148,163,184,.30);
+      color: rgba(30,41,59,.92);
+    }
+
+    /* Footer */
+    .footer{
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: var(--line);
+      color: var(--np-gray-600);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .footer strong{ color: var(--np-gray-800); }
+  
+    /* ===== Additions for auth/admin ===== */
+    .hidden{display:none !important;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background: rgba(255,255,255,.08);font-size:12px;color: rgba(255,255,255,.92);white-space:nowrap;}
+    .badge strong{font-weight:750;color:#fff;}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:#60a5fa;box-shadow: 0 0 0 3px rgba(96,165,250,.18);}
+    .badge.admin .dot{background:#fdb924;box-shadow: 0 0 0 3px rgba(253,185,36,.18);}
+    .small-note{font-size:12px;color:var(--np-gray-600);line-height:1.45;}
+    .split{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+    /* ===== Modal + tabs (submission detail / result) ===== */
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .tab-btn{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,.14);
+      background: #fff;
+      font-weight: 750;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(2,6,23,.06);
+    }
+    .tab-btn.active{
+      background: rgba(0,62,126,.08);
+      border-color: rgba(0,62,126,.32);
+    }
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,.55);
+      display:none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modal.open{ display:flex; }
+    #subDetailModal{ z-index: 10001; }
+    .modal-card{
+      width: min(900px, 100%);
+      max-height: calc(100vh - 36px);
+      overflow:auto;
+      background:#fff;
+      border-radius: 18px;
+      border: 1px solid rgba(15,23,42,.14);
+      box-shadow: 0 30px 80px rgba(2,6,23,.35);
+    }
+    .modal-head{
+      padding: 16px var(--pad-lg);
+      border-bottom: var(--line);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+      border-radius: 18px 18px 0 0;
+    }
+    .modal-head h3{ margin:0; font-size:18px; letter-spacing:-.2px; }
+    .modal-body{ padding: 16px var(--pad-lg); }
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .kv .item{
+      border: var(--line);
+      border-radius: 14px;
+      padding: 12px 12px;
+      background: rgba(241,245,249,.55);
+    }
+    .kv .item .k{
+      font-size: 12px;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+      color: rgba(15,23,42,.72);
+      margin-bottom: 6px;
+      font-weight: 750;
+    }
+    .kv .item .v{ color: var(--np-gray-800); font-size: 14px; line-height:1.45; white-space: pre-wrap; }
+    @media (max-width: 720px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+
+    /* File attachment display */
+    .file-attachment {
+      margin-top: 16px;
+      border: 2px solid rgba(0,62,126,.18);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0,62,126,.04) 0%, rgba(0,165,217,.06) 100%);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .file-attachment.no-file {
+      border-color: rgba(148,163,184,.25);
+      background: rgba(241,245,249,.6);
+    }
+    .file-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .file-icon.has-file {
+      background: linear-gradient(135deg, var(--np-navy), #1e5aad);
+      box-shadow: 0 6px 18px rgba(0,62,126,.25);
+    }
+    .file-icon.no-file { background: rgba(148,163,184,.2); }
+    .file-info { flex: 1; min-width: 0; }
+    .file-info .file-label {
+      font-size: 11px; font-weight: 750; letter-spacing: .4px;
+      text-transform: uppercase; color: rgba(15,23,42,.55); margin-bottom: 4px;
+    }
+    .file-info .file-name {
+      font-size: 14px; font-weight: 600; color: var(--np-gray-800);
+      word-break: break-all; line-height: 1.35;
+    }
+    .file-info .file-name.muted { color: var(--np-gray-500); font-weight: 500; }
+    .btn.file-btn {
+      padding: 11px 20px; border-radius: 11px; font-weight: 700; font-size: 14px;
+      gap: 8px; white-space: nowrap; flex-shrink: 0; text-decoration: none;
+    }
+    .btn.file-btn svg { width: 18px; height: 18px; }
+
+    /* Upload loading overlay */
+    .upload-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,.65);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .upload-overlay.active { display: flex; }
+    .upload-spinner {
+      width: 56px; height: 56px;
+      border: 5px solid rgba(255,255,255,.2);
+      border-top-color: var(--np-orange);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .upload-overlay-text {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.2px;
+      text-align: center;
+    }
+    .upload-overlay-sub {
+      color: rgba(255,255,255,.7);
+      font-size: 14px;
+      margin-top: -12px;
+    }
+    .upload-progress-bar-wrap {
+      width: 260px;
+      height: 6px;
+      background: rgba(255,255,255,.2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .upload-progress-bar {
+      height: 100%;
+      background: var(--np-orange);
+      border-radius: 999px;
+      width: 0%;
+      transition: width .3s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Upload loading overlay -->
+  <div class="upload-overlay" id="uploadOverlay">
+    <div class="upload-spinner"></div>
+    <div class="upload-overlay-text" id="uploadOverlayText">Uploading…</div>
+    <div class="upload-overlay-sub" id="uploadOverlaySub">Please don't close this tab</div>
+    <div class="upload-progress-bar-wrap">
+      <div class="upload-progress-bar" id="uploadProgressBar"></div>
+    </div>
+  </div>
+
+  <!-- Hash-route anchors -->
+  <span id="login" class="route" aria-hidden="true"></span>
+  <span id="register" class="route" aria-hidden="true"></span>
+  <span id="home" class="route" aria-hidden="true"></span>
+  <span id="requirements" class="route" aria-hidden="true"></span>
+  <span id="record" class="route" aria-hidden="true"></span>
+  <span id="submit" class="route" aria-hidden="true"></span>
+  <span id="submitresult" class="route" aria-hidden="true"></span>
+  <span id="admin" class="route" aria-hidden="true"></span>
+
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <!-- Universal Back Button (shows on all pages except login/register/home) -->
+      <a href="#home" id="headerBackBtn" class="header-back-btn hidden">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span>Back</span>
+      </a>
+
+      <div class="brand-text">
+        <div class="line1">SUNY New Paltz</div>
+        <div class="line2">Department of Anthropology Field Engagement Portal</div>
+      </div>
+
+      <div class="top-actions" aria-label="Top actions">
+        <!-- Google Sheets sync indicator -->
+        <div class="sync-indicator synced" id="syncIndicator">
+          <div class="sync-dot"></div>
+          <span id="syncStatus">Synced</span>
+        </div>
+        <div id="userBadge" class="badge hidden">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Signed in as <strong id="userBadgeName">—</strong></span>
+        </div>
+        <a id="adminLink" class="pill hidden" href="#admin" title="Admin dashboard">Admin Dashboard</a>
+        <button id="signOutBtn" class="pill hidden" type="button" title="Sign out">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+    <!-- =========================
+         LOGIN PAGE
+         ========================= -->
+    <section class="page page-login" aria-labelledby="login-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card pad">
+          <div id="loginMsg" class="notice hidden" role="status" aria-live="polite"></div>
+
+          <form id="loginForm" class="form" action="javascript:void(0)" method="post" aria-label="Login form">
+            <div>
+              <label for="np-email">New Paltz Email</label>
+              <input id="np-email" name="email" type="email" autocomplete="email" placeholder="e.g., abc12345@newpaltz.edu" required />
+              <div class="hint">Use the email you registered with.</div>
+            </div>
+
+            <div>
+              <label for="np-password">Password</label>
+              <div style="position: relative;"><input id="np-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required style="padding-right: 45px;" /><button type="button" id="togglePassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; color: var(--np-gray-600);" aria-label="Toggle password visibility"><svg id="eyeIcon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div>
+              <div class="hint">Questions? Contact <a href="mailto:anthropology@newpaltz.edu" style="color:var(--np-navy);">anthropology@newpaltz.edu</a></div>
+            </div>
+
+            <div class="actions">
+              <button class="btn primary" type="submit">Sign In</button>
+              <a class="btn ghost" href="#register" role="button">Create account</a>
+            </div>
+            <div style="margin-top:10px;text-align:center;">
+              <button type="button" id="forgotPassBtn" style="background:none;border:none;cursor:pointer;color:var(--np-navy);font-size:13px;text-decoration:underline;text-underline-offset:3px;">Can't remember your password?</button>
+            </div>
+</form>
+        </div>
+
+        <aside class="card pad">
+          <h2 style="margin:0 0 8px; font-size:18px;">What you can do here</h2>
+          <ul class="list" style="margin-top:10px;">
+            <li>View Field Engagement requirements for the Anthropology major.</li>
+            <li>View your Field Engagements record.</li>
+            <li>Submit documentation of a new Field Engagement experience for approval.</li>
+          </ul>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn small primary" href="#requirements" role="button">View Requirements</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         REGISTER PAGE
+         ========================= -->
+    <section class="page page-register" aria-labelledby="register-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card pad">
+          <div id="registerMsg" class="notice hidden" role="status" aria-live="polite"></div>
+
+          <form id="registerForm" class="form" action="javascript:void(0)" method="post" aria-label="Create account form">
+            <div class="row">
+              <div>
+                <label for="reg-first">First name</label>
+                <input id="reg-first" name="first_name" type="text" autocomplete="given-name" placeholder="e.g., Jane" required />
+              </div>
+              <div>
+                <label for="reg-last">Last name</label>
+                <input id="reg-last" name="last_name" type="text" autocomplete="family-name" placeholder="e.g., Doe" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="reg-nnum">N Number</label>
+              <input id="reg-nnum" name="nnum" type="text" placeholder="e.g., N00123456" required />
+              <div class="hint">Your SUNY New Paltz student ID. Only one account per N Number.</div>
+            </div>
+
+            <div>
+              <label for="reg-email">New Paltz Email</label>
+              <input id="reg-email" name="email" type="email" autocomplete="email" placeholder="e.g., abc12345@newpaltz.edu" required />
+              <div class="hint">Must end in <strong>@newpaltz.edu</strong>. Used to sign in.</div>
+            </div>
+
+            <div>
+              <label for="reg-personal-email">Personal Email</label>
+              <input id="reg-personal-email" name="personal_email" type="email" placeholder="e.g., jane.doe@gmail.com" required />
+              <div class="hint">Backup contact email. Must be different from your school email.</div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="reg-pass">Password</label>
+                <input id="reg-pass" name="password" type="password" autocomplete="new-password" required />
+              </div>
+              <div>
+                <label for="reg-pass2">Confirm password</label>
+                <input id="reg-pass2" name="password2" type="password" autocomplete="new-password" required />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn orange" type="submit">Create account</button>
+              <a class="btn ghost" href="#login" role="button">Cancel</a>
+            </div>
+
+          </form>
+        </div>
+
+        <aside class="card pad">
+          <h2 style="margin:0 0 10px; font-size:18px;">How permissions work</h2>
+          <div class="notice orange">
+            <strong>Student:</strong> view requirements, view own record, submit documentation.<br/>
+            <strong>Admin:</strong> can view the Admin Dashboard, change roles, and export logs.
+          </div>
+          <div class="footer">
+            <strong>Tip:</strong> Admins can export logs as <span class="mono">.csv</span> files that open in Excel.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         HOME / MAIN MENU PAGE
+         ========================= -->
+    <section class="page page-home" aria-labelledby="home-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card pad">
+          <h2 style="margin:0 0 10px; font-size:18px;">Choose an option</h2>
+
+          <div class="grid" style="gap:12px;">
+            <a class="btn primary" href="#requirements" role="button">
+              Field Engagement requirements for Anthropology major
+            </a>
+            <a class="btn" href="#record" role="button">
+              View your Field Engagements record
+            </a>
+            <a class="btn orange" href="#submit" role="button">
+              Submit documentation of new Field Engagement experience for approval
+            </a>
+          </div>
+
+          <div class="footer">
+            <strong>Reminder:</strong> The student is responsible for submitting completed engagements for approval.
+          </div>
+        </div>
+
+        <aside class="card pad">
+          <h2 style="margin:0 0 10px; font-size:18px;">Quick help</h2>
+          <div class="notice orange">
+            <strong>Tip:</strong> Keep digital copies of completion emails/certificates (e.g., CITI completion, library training).
+            You’ll upload them when submitting documentation.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         REQUIREMENTS PAGE
+         ========================= -->
+    <section class="page page-req" aria-labelledby="req-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Required activities</h2>
+              <div class="sub">Complete all items below.</div>
+            </div>
+          </div>
+          <div class="card pad">
+            <ol class="list">
+              <li>Attend one meeting of the student Anthropology Club.</li>
+              <li>Attend and do reflection brief for six qualifying department events.</li>
+              <li>Attend one Capstone Seminar Symposium prior to your senior year (prior to the year you present your own capstone research project).</li>
+              <li>Complete a bibliographic research training session.</li>
+              <li>Complete research ethics training module (CITI).</li>
+              <li>Professional development activity 1: Career Resource Center workshop on CV/resume preparation.</li>
+              <li>Professional development activity 2: Professional academic organization explorations.</li>
+            </ol>
+          </div>
+        </div>
+
+        <aside class="card">
+          <div class="card-head">
+            <div>
+              <h2>About submissions</h2>
+              <div class="sub">What to expect after you submit</div>
+            </div>
+          </div>
+          <div class="card pad">
+            <div class="notice">
+              <strong>Approvals:</strong> Submissions are reviewed by Anthropology faculty. Once your submission has been reviewed, you'll receive notification.
+            </div>
+
+
+            <div class="actions">
+              <a class="btn primary" href="#record" role="button">View Your Record</a>
+              <a class="btn orange" href="#submit" role="button">Submit Documentation</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         RECORD PAGE
+         ========================= -->
+    <section class="page page-record" aria-labelledby="record-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Requirement checklist</h2>
+              <div class="sub">Saved per account.</div>
+            </div>
+            <div class="sub">Last updated: <strong id="recordLastUpdated">—</strong></div>
+          </div>
+
+          <div class="card pad" style="padding-top:14px;">
+            <table aria-label="Field engagements status table">
+              <thead>
+                <tr>
+                  <th style="width:38%;">Requirement</th>
+                  <th style="width:16%;">Status</th>
+                  <th style="width:18%;">Most recent</th>
+                  <th style="width:14%;">Verified by</th>
+                  <th style="width:14%;">Details</th>
+                </tr>
+              </thead>
+              <tbody id="recordTableBody">
+                <!-- populated by JS -->
+              </tbody>
+            </table>
+
+            <div class="footer">
+              <strong>Reminder:</strong> The student is responsible for submitting completed engagements for approval.
+            </div>
+          </div>
+        </div>
+
+        <aside class="card pad">
+          <h2 style="margin:0 0 10px; font-size:18px;">Your submitted events</h2>
+          <div class="notice">
+            <strong>Tip:</strong> Use the Submit page to log each qualifying department event (including date).
+          </div>
+          <div style="margin-top:12px;">
+            <table aria-label="Submitted engagements list">
+              <thead>
+                <tr>
+                  <th style="width:38%;">Requirement</th>
+                  <th style="width:16%;">Date</th>
+                  <th style="width:26%;">Status</th>
+                  <th style="width:20%;">Details</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsTableBody">
+                <!-- populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn orange" href="#submit" role="button">Submit Documentation</a>
+            <a class="btn ghost" href="#requirements" role="button">Review Requirements</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         SUBMIT PAGE
+         ========================= -->
+    <section class="page page-submit" aria-labelledby="submit-title">
+
+      <div class="grid cols-2" style="margin-top:16px;">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Submission Form</h2>
+              <div class="sub">Saved to your account.</div>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <div id="submitMsg" class="notice hidden" role="status" aria-live="polite"></div>
+
+            <form id="submitForm" class="form" action="javascript:void(0)" method="post" enctype="multipart/form-data" aria-label="Submission form">
+              <div>
+                <label for="req-type">Category</label>
+                <select id="req-type" name="requirement" required>
+                  <option value="">Select one…</option>
+                  <option>Anthropology Club meeting</option>
+                  <optgroup label="Qualifying Department Events (complete all 6)">
+                    <option>Qualifying department event 1 of 6 + reflection brief</option>
+                    <option>Qualifying department event 2 of 6 + reflection brief</option>
+                    <option>Qualifying department event 3 of 6 + reflection brief</option>
+                    <option>Qualifying department event 4 of 6 + reflection brief</option>
+                    <option>Qualifying department event 5 of 6 + reflection brief</option>
+                    <option>Qualifying department event 6 of 6 + reflection brief</option>
+                  </optgroup>
+                  <option>Capstone Seminar Symposium (before senior year)</option>
+                  <option>Bibliographic research training</option>
+                  <option>Research ethics training (CITI)</option>
+                  <option>Professional development 1 (CRC CV/resume workshop)</option>
+                  <option>Professional development 2 (academic organization explorations)</option>
+                </select>
+              </div>
+
+              <!-- Dynamic requirement notice — shown after category selected -->
+              <div id="reqNotice" class="notice hidden"></div>
+
+              <div>
+                <label for="summary">Description</label>
+                <textarea id="summary" name="summary" placeholder=""></textarea>
+                <div class="hint">Include the name of the event, date, and location.</div>
+              </div>
+
+              <!-- Upload section — shown/hidden based on category -->
+              <div id="uploadSection" class="hidden">
+                <label for="proof" id="uploadLabel">Upload File</label>
+                <input id="proof" name="proof" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                <div class="hint" id="uploadHint">Max file size: 10 MB. Accepted: PDF, Word, JPG, PNG.</div>
+                <div id="fileSizeError" class="notice orange hidden" style="margin-top:6px;"></div>
+              </div>
+
+              <div class="notice">
+                <strong>What happens next?</strong> Your submission is marked <em>Pending review</em> until an admin marks it approved/denied.
+              </div>
+
+              <div class="actions">
+                <button class="btn orange" type="submit">Submit for Approval</button>
+                <a class="btn ghost" href="#record" role="button">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Requirements reference table -->
+        <aside class="card">
+          <div class="card-head">
+            <div>
+              <h2>What to submit</h2>
+              <div class="sub">Required documentation per category</div>
+            </div>
+          </div>
+          <div class="card pad" style="padding-top:14px;">
+            <table aria-label="Submission requirements by category">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th style="width:38%;">Required doc</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Anthropology Club meeting</td><td><span class="status missing">None</span></td></tr>
+                <tr><td>Qualifying dept. events (×6)</td><td><span class="status pending">Reflection brief</span></td></tr>
+                <tr><td>Capstone Seminar Symposium</td><td><span class="status missing">None</span></td></tr>
+                <tr><td>Bibliographic research training</td><td><span class="status done">Completion cert.</span></td></tr>
+                <tr><td>Research ethics training (CITI)</td><td><span class="status done">Completion cert.</span></td></tr>
+                <tr><td>Professional development 1</td><td><span class="status done">Draft resume</span></td></tr>
+                <tr><td>Professional development 2</td><td><span class="status pending">Reflection brief</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================
+         SUBMIT RESULT PAGE
+         ========================= -->
+    <section class="page page-submitresult" aria-labelledby="submitresult-title">
+      <div style="margin-top: 20px;">
+        <!-- Big Success Banner -->
+        <div id="successBanner" class="success-banner hidden" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 40px 30px; border-radius: 16px; text-align: center; box-shadow: 0 20px 50px rgba(16, 185, 129, 0.3); margin-bottom: 24px;">
+          <div style="font-size: 60px; margin-bottom: 12px;">✓</div>
+          <h1 style="margin: 0 0 8px; font-size: 32px; font-weight: 800; color: white;">Submission Received!</h1>
+          <p style="margin: 0; font-size: 18px; opacity: 0.95;">Your field engagement has been submitted for review.</p>
+        </div>
+
+        <!-- Error Banner -->
+        <div id="errorBanner" class="error-banner hidden" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 40px 30px; border-radius: 16px; text-align: center; box-shadow: 0 20px 50px rgba(239, 68, 68, 0.3); margin-bottom: 24px;">
+          <div style="font-size: 60px; margin-bottom: 12px;">✕</div>
+          <h1 style="margin: 0 0 8px; font-size: 32px; font-weight: 800; color: white;">Submission Failed</h1>
+          <p id="errorBannerMessage" style="margin: 0; font-size: 18px; opacity: 0.95;">Please try again.</p>
+        </div>
+
+        <div class="card pad">
+          <h2 style="margin: 0 0 16px; font-size: 20px;">Submission Details</h2>
+          
+          <table aria-label="Submission summary">
+            <thead>
+              <tr>
+                <th style="width:30%;">Field</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody id="submitResultSummaryBody">
+              <tr><td colspan="2">—</td></tr>
+            </tbody>
+          </table>
+
+          <div class="actions" style="margin-top: 20px;">
+            <a class="btn orange" href="#submit" role="button">Submit Another</a>
+            <a class="btn" href="#record" role="button">View My Record</a>
+            <a class="btn ghost" href="#home" role="button">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- =========================
+         ADMIN DASHBOARD
+         ========================= -->
+    <section class="page page-admin" aria-labelledby="admin-title">
+      <div class="mast">
+        <div>
+          <span class="kicker"><span class="bar" aria-hidden="true"></span> Admin</span>
+          <h1 id="admin-title">Admin Dashboard</h1>
+          <p>
+            Manage account permissions and review submissions. Export logs to CSV for Excel.
+          </p>
+        </div>
+        <div class="actions">
+          <a class="btn small ghost" href="#home" role="button">Back to Menu</a>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:16px;">
+        <div class="card pad">
+          <div class="split">
+            <div>
+              <h2 style="margin:0 0 6px; font-size:18px;">Accounts</h2>
+              <div class="small-note">Default roles: new accounts are <strong>student</strong>. Use role <strong>admin</strong> to grant dashboard access.</div>
+            </div>
+            
+            <div class="actions" style="margin-top:0;">
+              <button id="exportsToggleBtn" class="btn small ghost" type="button" aria-expanded="false">Exports ▾</button>
+              <div id="exportsMenu" class="mini-menu hidden" style="position:absolute; right:0; top:42px; min-width:240px;" role="menu" aria-label="Exports menu">
+                <button id="exportAccountsBtn" class="btn small" type="button" role="menuitem">Export Accounts Log (CSV)</button>
+                <button id="exportSubmissionsBtn" class="btn small" type="button" role="menuitem">Export Submissions Log (CSV)</button>
+              </div>
+            </div>
+
+          </div>
+
+          
+          <div class="row" style="margin-top:14px;">
+            <div>
+              <label for="accSearchFirst">Search first</label>
+              <input id="accSearchFirst" type="text" placeholder="e.g., John" />
+            </div>
+            <div>
+              <label for="accSearchLast">Search last</label>
+              <input id="accSearchLast" type="text" placeholder="e.g., Doe" />
+            </div>
+            <div>
+              <label for="accSearchEmail">Search email</label>
+              <input id="accSearchEmail" type="text" placeholder="e.g., @newpaltz.edu" />
+            </div>
+            <div>
+              <label for="accFilterRole">Role</label>
+              <select id="accFilterRole">
+                <option value="">all</option>
+                <option value="student">student</option>
+                <option value="admin">admin</option>
+              </select>
+            </div>
+          </div>
+<div style="margin-top:12px;">
+            <table aria-label="Accounts table">
+              <thead>
+                <tr>
+                  <th style="width:16%;">First</th>
+                  <th style="width:16%;">Last</th>
+                  <th style="width:28%;">Email</th>
+                  <th style="width:12%;">Role</th>
+                  <th style="width:18%;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersBody"></tbody>
+            </table>
+          </div>
+
+          <div id="accPagination" style="margin-top:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div class="small-note" id="accPageInfo">—</div>
+            <div style="display:flex; gap:6px;">
+              <button id="accPrevPage" class="btn small ghost" type="button">← Prev</button>
+              <button id="accNextPage" class="btn small ghost" type="button">Next →</button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="card pad">
+          <div class="split">
+            <div>
+              <h2 style="margin:0 0 6px; font-size:18px;">Submissions</h2>
+              <div class="small-note">Click a row to open full details.</div>
+            </div>
+            <!-- hidden select kept for JS compatibility -->
+            <select id="reviewUserSelect" aria-label="Select user to review" style="display:none;"></select>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div class="row" style="margin-bottom:10px;">
+              <div>
+                <label for="subSearchName">Search name / email</label>
+                <input id="subSearchName" type="text" placeholder="e.g., Doe or @newpaltz.edu" />
+              </div>
+              <div>
+                <label for="subFilterStatus">Status</label>
+                <select id="subFilterStatus">
+                  <option value="">all</option>
+                  <option value="pending">pending</option>
+                  <option value="approved">approved</option>
+                  <option value="denied">denied</option>
+                </select>
+              </div>
+            </div>
+            <table aria-label="All submissions review table">
+              <thead>
+                <tr>
+                  <th style="width:16%;">Student</th>
+                  <th style="width:32%;">Requirement</th>
+                  <th style="width:14%;">Date</th>
+                  <th style="width:24%;">Status</th>
+                  <th style="width:14%;">Open</th>
+                </tr>
+              </thead>
+              <tbody id="adminAllSubmissionsBody"></tbody>
+            </table>
+          </div>
+        </div>
+    </section>
+<!-- Forgot Password Modal (two-step) -->
+<div id="forgotPassModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-card" style="max-width:440px;">
+    <div class="modal-head">
+      <div>
+        <h3 id="forgotPassTitle">Reset Password</h3>
+        <div class="small-note" id="forgotPassSubtitle">Enter your N Number and school email to verify your identity.</div>
+      </div>
+      <div class="actions" style="margin-top:0;">
+        <button id="closeForgotPassBtn" class="btn small ghost" type="button">Close</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="forgotPassMsg" class="notice hidden" role="status" aria-live="polite"></div>
+
+      <!-- Step 1: Verify identity -->
+      <div id="forgotStep1" class="form" style="margin-top:0;">
+        <div>
+          <label for="forgotNnum">N Number</label>
+          <input id="forgotNnum" type="text" placeholder="e.g., N00123456" />
+        </div>
+        <div>
+          <label for="forgotEmail">New Paltz Email</label>
+          <input id="forgotEmail" type="email" placeholder="e.g., abc12345@newpaltz.edu" />
+        </div>
+        <div class="actions">
+          <button id="submitForgotPassBtn" class="btn orange" type="button">Verify Identity</button>
+        </div>
+        <div class="notice" style="margin-top:4px;">
+          <strong>Still locked out?</strong> Contact <a href="mailto:anthropology@newpaltz.edu" style="color:var(--np-navy);">anthropology@newpaltz.edu</a>
+        </div>
+      </div>
+
+      <!-- Step 2: Set new password (hidden until verified) -->
+      <div id="forgotStep2" class="form hidden" style="margin-top:0;">
+        <div class="notice" style="margin-bottom:4px;">
+          Identity verified. Choose a new password below.
+        </div>
+        <div>
+          <label for="forgotNewPass">New Password</label>
+          <input id="forgotNewPass" type="password" placeholder="At least 4 characters" />
+        </div>
+        <div>
+          <label for="forgotNewPass2">Confirm New Password</label>
+          <input id="forgotNewPass2" type="password" placeholder="Repeat new password" />
+        </div>
+        <div class="actions">
+          <button id="submitNewPassBtn" class="btn orange" type="button">Save New Password</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  </main>
+
+  
+  <!-- =========================
+       Submission detail modal
+       ========================= -->
+  <div id="subDetailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="subDetailTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="subDetailTitle">Submission details</h3>
+          <div id="subDetailSub" class="small-note">—</div>
+        </div>
+        <div class="actions" style="margin-top:0;">
+          <button id="closeSubDetailBtn" class="btn small ghost" type="button">Close</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="subDetailStatus" class="notice"></div>
+
+        <div class="kv" id="subDetailKV">
+          <!-- populated by JS -->
+        </div>
+
+        <!-- File attachment display -->
+        <div id="subDetailFileSection" class="file-attachment no-file" style="display:none;">
+          <div class="file-icon no-file" id="subDetailFileIcon">
+            <svg width="24" height="24" fill="none" stroke="#94a3b8" viewBox="0 0 24 24" id="subDetailFileIconSvg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div class="file-info">
+            <div class="file-label">Uploaded Documentation</div>
+            <div class="file-name muted" id="subDetailFileName">No file attached</div>
+          </div>
+          <a id="subDetailFileBtn" class="btn file-btn primary" href="#" target="_blank" rel="noopener" style="display:none;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            View File
+          </a>
+        </div>
+
+        <div id="adminReviewPanel" class="card" style="margin-top:14px; display:none;">
+          <div class="card-head">
+            <div>
+              <h2 style="margin:0; font-size:16px;">Admin review</h2>
+              <div class="sub">Approve/deny and leave feedback for the student.</div>
+            </div>
+          </div>
+          <div class="card pad" style="padding-top:14px;">
+            <div class="row">
+              <div>
+                <label for="adminReviewStatus">Decision</label>
+                <select id="adminReviewStatus">
+                  <option value="pending">pending</option>
+                  <option value="approved">approved</option>
+                  <option value="denied">denied</option>
+                </select>
+              </div>
+              <div>
+                <label for="adminReviewedBy">Reviewed by</label>
+                <input id="adminReviewedBy" type="text" readonly />
+                <div class="hint">Recorded automatically from the signed-in admin.</div>
+              </div>
+            </div>
+
+            <div>
+              <label for="adminReviewFeedback">Feedback (optional)</label>
+              <textarea id="adminReviewFeedback" placeholder="Write a short note the student can see."></textarea>
+              <div class="hint">This feedback will appear in the student’s submission details.</div>
+            </div>
+
+            <div class="row" style="margin-top:10px;">
+              <div>
+                <label class="check" style="display:flex; gap:10px; align-items:center;">
+                  <input id="notifyByEmailChk" type="checkbox" checked />
+                  <span>Open an email draft to the student after saving</span>
+                </label>
+</div>
+              <div style="align-self:end;">
+                <button id="openEmailDraftBtn" class="btn small" type="button">Open email draft</button>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="saveAdminReviewBtn" class="btn orange" type="button">Save review</button>
+            </div>
+
+            <div id="adminReviewMsg" class="notice hidden" role="status" aria-live="polite" style="margin-top:12px;"></div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:14px;">
+          <a class="btn small ghost" href="#record" role="button">Go to Record</a>
+          <a class="btn small" href="#home" role="button">Menu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- =========================
+     User profile modal (admin)
+     ========================= -->
+<div id="userProfileModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="userProfileTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h3 id="userProfileTitle">Student record</h3>
+        <div id="userProfileSub" class="small-note">—</div>
+      </div>
+      <div class="actions" style="margin-top:0;">
+        <button id="sendStatusReminderBtn" class="btn small orange" type="button">Send Status Reminder</button>
+        <button id="closeUserProfileBtn" class="btn small ghost" type="button">Close</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="grid cols-2" style="gap:14px;">
+        <div class="card pad">
+          <h4 style="margin:0 0 8px;">Overview</h4>
+          <div class="kv" id="userProfileKV"></div>
+        </div>
+        <div class="card pad">
+          <h4 style="margin:0 0 8px;">Quick stats</h4>
+          <div class="kv" id="userProfileStatsKV"></div>
+        </div>
+      </div>
+
+      
+      <div class="card pad" style="margin-top:14px;">
+        <div class="split">
+          <div>
+            <h4 style="margin:0 0 6px;">Requirements status</h4>
+            <div class="small-note">Shows every requirement, including items not started yet. Click Open to view the most recent submission (if any).</div>
+          </div>
+          <div class="actions" style="margin-top:0;">
+            <button id="exportStudentReqBtn" class="btn small" type="button">Export requirements status (CSV)</button>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <table aria-label="Student requirements status table">
+            <thead>
+              <tr>
+                <th style="width:46%;">Requirement</th>
+                <th style="width:24%;">Latest activity</th>
+                <th style="width:18%;">Status</th>
+                <th style="width:12%;">Open</th>
+              </tr>
+            </thead>
+            <tbody id="userProfileReqBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+<div class="card pad" style="margin-top:14px;">
+        <div class="split">
+          <div>
+            <h4 style="margin:0 0 6px;">Submission history</h4>
+            <div class="small-note">Click a row to open full details. Admin review + feedback lives inside the submission.</div>
+          </div>
+          <div class="actions" style="margin-top:0;">
+            <button id="exportStudentSubsBtn" class="btn small" type="button">Export this student's submissions (CSV)</button>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <table aria-label="Student submissions table">
+            <thead>
+              <tr>
+                <th style="width:40%;">Requirement</th>
+                <th style="width:18%;">Date</th>
+                <th style="width:18%;">Status</th>
+                <th style="width:12%;">Open</th>
+              </tr>
+            </thead>
+            <tbody id="userProfileSubsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // =========================
+    // GOOGLE SHEETS INTEGRATION
+    // Authentication is 100% Google Sheets only — no localStorage for login/session/users
+    // =========================
+    
+    // Your Google Apps Script Web App URL
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyOLyO9ThTOeh0kYMgatI6fpMZGgtZ610l_gL9heJzmi7N3AKqbEH1oT4wfrr9bprSm/exec';
+    
+    // Sync status management
+    function updateSyncStatus(status, message) {
+      const indicator = document.getElementById('syncIndicator');
+      const statusText = document.getElementById('syncStatus');
+      if (!indicator || !statusText) return;
+      
+      indicator.className = 'sync-indicator ' + status;
+      statusText.textContent = message;
+    }
+    
+    // -------------------------------------------------------
+    // JSONP helper — bypasses CORS for Google Apps Script GETs
+    // Apps Script must wrap response in callback(data)
+    // -------------------------------------------------------
+    function jsonpRequest(params, timeoutMs) {
+      timeoutMs = timeoutMs || 12000;
+      return new Promise(function(resolve, reject) {
+        var cbName = '_fep_cb_' + Math.random().toString(36).slice(2);
+        var qs = Object.keys(params).map(function(k) {
+          return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+        }).join('&');
+        var url = GOOGLE_SHEETS_URL + '?' + qs + '&callback=' + cbName;
+
+        var timer = setTimeout(function() {
+          cleanup();
+          reject(new Error('Request timed out'));
+        }, timeoutMs);
+
+        window[cbName] = function(data) {
+          cleanup();
+          resolve(data);
+        };
+
+        function cleanup() {
+          clearTimeout(timer);
+          delete window[cbName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        var script = document.createElement('script');
+        script.src = url;
+        script.onerror = function() { cleanup(); reject(new Error('Network error')); };
+        document.head.appendChild(script);
+      });
+    }
+
+    // POST to Google Sheets (no-cors is fine for fire-and-forget writes)
+    async function syncToSheets(action, data) {
+      try {
+        updateSyncStatus('syncing', 'Syncing...');
+        await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, data, timestamp: new Date().toISOString() })
+        });
+        updateSyncStatus('synced', 'Synced');
+      } catch (error) {
+        console.error('Sync error:', error);
+        updateSyncStatus('error', 'Sync failed');
+        setTimeout(() => updateSyncStatus('synced', 'Synced'), 3000);
+      }
+    }
+
+    // =========================
+    // In-memory session ONLY — no localStorage, no cookies
+    // currentUser holds the full user object returned by Google Sheets after login.
+    // It is cleared on page refresh/close (browser session only).
+    // All user/submission data is fetched live from Google Sheets on every action.
+    // =========================
+    let _currentUser = null; // { username, email, firstName, lastName, role, ... }
+
+    function getSession(){ return _currentUser; }
+    function setSession(user){ _currentUser = user; }
+    function clearSession(){ _currentUser = null; }
+
+    // Stub loadDB / saveDB / findUser so legacy render functions still work
+    // They now operate on an in-memory object populated from Sheets responses
+    let _memDB = { users: [], logs: { accounts: [], submissions: [] } };
+    function loadDB(){ return _memDB; }
+    function saveDB(db){ _memDB = db; }
+
+    function findUser(db, username){
+      return db.users.find(u => u.username.toLowerCase() === String(username).toLowerCase());
+    }
+
+    const REQUIREMENTS = [
+      "Anthropology Club meeting",
+      "Qualifying department event 1 of 6 + reflection brief",
+      "Qualifying department event 2 of 6 + reflection brief",
+      "Qualifying department event 3 of 6 + reflection brief",
+      "Qualifying department event 4 of 6 + reflection brief",
+      "Qualifying department event 5 of 6 + reflection brief",
+      "Qualifying department event 6 of 6 + reflection brief",
+      "Capstone Seminar Symposium (before senior year)",
+      "Bibliographic research training",
+      "Research ethics training (CITI)",
+      "Professional development 1 (CRC CV/resume workshop)",
+      "Professional development 2 (academic organization explorations)"
+    ];
+
+    // Admin pagination & cache state
+    let _adminUsersCache = [];     // all users from last fetch
+    let _adminCurrentPage = 1;
+    const _adminPageSize = 5;
+
+    function nowISO(){
+      const d = new Date();
+      return d.toISOString();
+    }
+
+    // Encode password for semi-privacy in Google Sheets (Base64)
+    function encodePassword(password) {
+      try {
+        return btoa(password); // Base64 encode
+      } catch(e) {
+        return password; // Fallback if encoding fails
+      }
+    }
+
+
+
+    function isAdmin(user){ return user && user.role === "admin"; }
+
+    function openMailDraft(to, subject, body){
+      // Note: A static HTML prototype cannot send email automatically without a server.
+      // This opens the user's default mail app with a pre-filled draft.
+      const href = "mailto:" + encodeURIComponent(to)
+        + "?subject=" + encodeURIComponent(subject || "")
+        + "&body=" + encodeURIComponent(body || "");
+      window.location.href = href;
+    }
+
+    function buildReviewEmail(student, submission){
+      const who = (((student.firstName||"") + " " + (student.lastName||"")).trim()) || (student.email||student.username);
+      const status = (submission.status || "pending").toUpperCase();
+      const subject = `FEP submission ${status}: ${submission.requirement || "Engagement"}`;
+      const lines = [
+        `Hi ${student.firstName || who},`,
+        ``,
+        `Your Field Engagement submission has been reviewed.`,
+        ``,
+        `Requirement: ${submission.requirement || "—"}`,
+        `Decision: ${status}`,
+        `Feedback: ${submission.feedback || "—"}`,
+        ``,
+        `— Department of Anthropology (FEP)`
+      ];
+      return { subject, body: lines.join("\n") };
+    }
+
+    function buildStatusReminderEmail(student){
+      const who = (((student.firstName||"") + " " + (student.lastName||"")).trim()) || (student.email||student.username);
+      const subs = student.submissions || [];
+
+      // Build a map of the most recent submission per requirement
+      const latestByReq = new Map();
+      subs.forEach(s => {
+        const key = (s.requirement || "").trim();
+        if(!key) return;
+        const prev = latestByReq.get(key);
+        const a = (s.reviewedAt || s.at || "");
+        const b = prev ? (prev.reviewedAt || prev.at || "") : "";
+        if(!prev || a.localeCompare(b) > 0) latestByReq.set(key, s);
+      });
+
+      // Categorize requirements
+      const completed = [];
+      const pending = [];
+      const denied = [];
+      const notStarted = [];
+
+      REQUIREMENTS.forEach(req => {
+        const s = latestByReq.get(req);
+        if(!s)                          notStarted.push(req);
+        else if(s.status === "approved") completed.push(req);
+        else if(s.status === "denied")   denied.push({ req, feedback: s.feedback || "" });
+        else                             pending.push(req);
+      });
+
+      const total = REQUIREMENTS.length;
+      const doneCount = completed.length;
+
+      const lines = [
+        `Hi ${student.firstName || who},`,
+        ``,
+        `This is a reminder from the Department of Anthropology regarding your Field Engagement Program (FEP) progress.`,
+        ``,
+        `═══════════════════════════════════`,
+        `  PROGRESS SUMMARY: ${doneCount} of ${total} complete`,
+        `═══════════════════════════════════`,
+        ``
+      ];
+
+      if(completed.length){
+        lines.push(`APPROVED (${completed.length}):`);
+        completed.forEach(r => lines.push(`  [done] ${r}`));
+        lines.push(``);
+      }
+
+      if(pending.length){
+        lines.push(`PENDING REVIEW (${pending.length}):`);
+        pending.forEach(r => lines.push(`  [pending] ${r}`));
+        lines.push(``);
+      }
+
+      if(denied.length){
+        lines.push(`DENIED — RESUBMISSION NEEDED (${denied.length}):`);
+        denied.forEach(d => {
+          lines.push(`  [denied] ${d.req}`);
+          if(d.feedback) lines.push(`           Feedback: ${d.feedback}`);
+        });
+        lines.push(``);
+      }
+
+      if(notStarted.length){
+        lines.push(`NOT YET SUBMITTED (${notStarted.length}):`);
+        notStarted.forEach(r => lines.push(`  [ ] ${r}`));
+        lines.push(``);
+      }
+
+      lines.push(`═══════════════════════════════════`);
+      lines.push(``);
+
+      if(notStarted.length || denied.length){
+        lines.push(`Please log in to the Field Engagement Portal to submit documentation for your remaining requirements. If any submissions were denied, review the feedback above and resubmit.`);
+      } else if(pending.length){
+        lines.push(`All your requirements have been submitted and are being reviewed. No action is needed at this time.`);
+      } else {
+        lines.push(`Congratulations — all your Field Engagement requirements are complete!`);
+      }
+
+      lines.push(``);
+      lines.push(`If you have any questions, please contact the Department of Anthropology.`);
+      lines.push(``);
+      lines.push(`— Department of Anthropology`);
+      lines.push(`  SUNY New Paltz`);
+      lines.push(`  Field Engagement Program`);
+
+      const subject = `FEP Status Reminder: ${doneCount}/${total} requirements complete — ${student.firstName || who} ${student.lastName || ""}`.trim();
+
+      return { subject, body: lines.join("\n") };
+    }
+
+    // =========================
+    // UI helpers
+    // =========================
+    function showMsg(el, text, orange=false){
+      el.textContent = text;
+      el.classList.remove("hidden");
+      el.classList.toggle("orange", !!orange);
+    }
+    function hideMsg(el){ el.classList.add("hidden"); el.textContent=""; }
+
+
+    const LAST_SUBMIT_KEY = "fep_last_submit_v1";
+    let _lastSubmit = null;
+
+    function setLastSubmit(payload){
+      _lastSubmit = payload;
+    }
+    function getLastSubmit(){
+      return _lastSubmit;
+    }
+
+    function openSubmissionDetail(username, subId){
+      const db = loadDB();
+      const u = findUser(db, username);
+      const modal = document.getElementById("subDetailModal");
+      const kv = document.getElementById("subDetailKV");
+      const subLine = document.getElementById("subDetailSub");
+      const statusBox = document.getElementById("subDetailStatus");
+
+      if(!modal || !kv || !statusBox || !subLine) return;
+
+      if(!u){
+        statusBox.classList.add("orange");
+        statusBox.textContent = "Could not find that user/submission on this device.";
+        kv.innerHTML = "";
+        modal.classList.add("open");
+        return;
+      }
+      const s = (u.submissions||[]).find(x => x.id === subId);
+      if(!s){
+        statusBox.classList.add("orange");
+        statusBox.textContent = "Could not find that submission on this device.";
+        kv.innerHTML = "";
+        modal.classList.add("open");
+        return;
+      }
+
+      statusBox.classList.toggle("orange", (s.status||"pending") !== "approved");
+      statusBox.innerHTML = `<strong>Status:</strong> ${statusPill(s.status||"pending")} <span style="margin-left:10px;"></span> <strong>User:</strong> <span class="mono">${u.username}</span>`;
+
+      subLine.textContent = `Created: ${s.at ? new Date(s.at).toLocaleString() : "—"}`;
+
+      const fields = [
+        ["Requirement", s.requirement || "—"],
+        ["Date completed", s.dateCompleted || "—"],
+        ["Description", s.summary || "—"],
+        ["Verified by", s.verifiedBy || "—"]
+      ];
+
+      // Include feedback field (if any)
+      kv.innerHTML = fields.concat([["Admin feedback", s.feedback || "—"]]).map(([k,v]) => {
+        const safe = String(v ?? "—").replace(/</g,"&lt;");
+        return `<div class="item"><div class="k">${k}</div><div class="v">${safe}</div></div>`;
+      }).join("");
+
+      // File attachment section
+      const fileSection = document.getElementById("subDetailFileSection");
+      const fileIcon    = document.getElementById("subDetailFileIcon");
+      const fileIconSvg = document.getElementById("subDetailFileIconSvg");
+      const fileNameEl  = document.getElementById("subDetailFileName");
+      const fileBtn     = document.getElementById("subDetailFileBtn");
+
+      if(fileSection){
+        fileSection.style.display = "flex";
+        const hasFile = !!(s.driveLink && s.driveLink.trim());
+
+        if(hasFile){
+          fileSection.className = "file-attachment";
+          fileIcon.className    = "file-icon has-file";
+          fileIconSvg.setAttribute("stroke", "#ffffff");
+          fileNameEl.className  = "file-name";
+          fileNameEl.textContent = s.fileName || "Uploaded file";
+          fileBtn.style.display = "inline-flex";
+          fileBtn.href          = s.driveLink;
+        } else {
+          fileSection.className = "file-attachment no-file";
+          fileIcon.className    = "file-icon no-file";
+          fileIconSvg.setAttribute("stroke", "#94a3b8");
+          fileNameEl.className  = "file-name muted";
+          fileNameEl.textContent = "No file was uploaded with this submission";
+          fileBtn.style.display = "none";
+          fileBtn.href          = "#";
+        }
+      }
+
+      // Admin-only review controls (approve/deny + feedback)
+      const sess = getSession();
+      const current = sess ? findUser(db, sess.username) : null; // username is email in this build
+      const panel = document.getElementById("adminReviewPanel");
+      const statusSel = document.getElementById("adminReviewStatus");
+      const byInput = document.getElementById("adminReviewedBy");
+      const fb = document.getElementById("adminReviewFeedback");
+      const notifyChk = document.getElementById("notifyByEmailChk");
+      const emailBtn = document.getElementById("openEmailDraftBtn");
+      const saveBtn = document.getElementById("saveAdminReviewBtn");
+      const reviewMsg = document.getElementById("adminReviewMsg");
+
+      if(panel && statusSel && byInput && fb && saveBtn && reviewMsg && current && isAdmin(current)){
+        panel.style.display = "block";
+        statusSel.value = (s.status || "pending");
+        byInput.value = current.email || current.username || "Admin";
+        fb.value = (s.feedback || "");
+
+        if(notifyChk) notifyChk.checked = true;
+
+        if(emailBtn){
+          emailBtn.onclick = () => {
+            const db2 = loadDB();
+            const student = findUser(db2, u.username);
+            if(!student) { alert("Student account not found on this device."); return; }
+            const s2 = (student.submissions||[]).find(x => x.id === s.id) || s;
+            const to = (student.email || student.username || "").trim();
+            if(!to){ alert("No student email found."); return; }
+            const mail = buildReviewEmail(student, s2);
+            openMailDraft(to, mail.subject, mail.body);
+          };
+        }
+        reviewMsg.classList.add("hidden");
+        reviewMsg.textContent = "";
+
+        // Wire save (replace handler each open)
+        saveBtn.onclick = async () => {
+          const db2 = loadDB();
+          const u2 = findUser(db2, u.username);
+          if(!u2){
+            showMsg(reviewMsg, "Could not save: user not found on this device.", true);
+            return;
+          }
+          const s2 = (u2.submissions||[]).find(x => x.id === s.id);
+          if(!s2){
+            showMsg(reviewMsg, "Could not save: submission not found on this device.", true);
+            return;
+          }
+
+          const newStatus = statusSel.value;
+          const newFeedback = fb.value.trim();
+          const reviewer = (current.email || current.username || "Admin");
+          const reviewedAt = nowISO();
+
+          // Show full-screen loading overlay
+          showUploadOverlay('Saving review…', 'Syncing with Google Sheets');
+          setUploadProgress(20);
+
+          try {
+            setUploadProgress(40, 'Updating record…');
+
+            // Sync to Google Sheets
+            await syncToSheets('SUBMISSION_STATUS_CHANGED', {
+              username: u2.email || u2.username,
+              studentName: ((u2.firstName||"") + " " + (u2.lastName||"")).trim(),
+              submissionId: s2.id,
+              requirement: s2.requirement || '',
+              summary: s2.summary || '',
+              oldStatus: s2.status || 'pending',
+              newStatus: newStatus,
+              verifiedBy: reviewer,
+              feedback: newFeedback,
+              reviewedAt: reviewedAt,
+              timestamp: reviewedAt
+            });
+
+            setUploadProgress(70, 'Refreshing data…');
+
+            // Update in-memory state
+            s2.status = newStatus;
+            s2.feedback = newFeedback;
+            s2.verifiedBy = reviewer;
+            s2.reviewedAt = reviewedAt;
+            saveDB(db2);
+
+            // Re-fetch submissions from Sheets so everything is fresh
+            try {
+              const result = await jsonpRequest({ action: 'GET_SUBMISSIONS', email: (u2.email || u2.username) });
+              if(result && result.success && Array.isArray(result.submissions)){
+                u2.submissions = result.submissions;
+              }
+            } catch(e){ /* local state is already updated */ }
+
+            setUploadProgress(100, 'Done!');
+            await new Promise(r => setTimeout(r, 400));
+            hideUploadOverlay();
+
+            showMsg(reviewMsg, "Saved and synced to Google Sheets.", false);
+
+            // Open email draft if checkbox is checked
+            if(notifyChk && notifyChk.checked){
+              try { emailBtn && emailBtn.click(); } catch(e){}
+            }
+
+            // Refresh tables if we're on admin/record
+            try { renderAdminAllSubmissions(); } catch(e){}
+            try { renderAdminSubmissions(document.getElementById("reviewUserSelect")?.value || u2.username); } catch(e){}
+            try { renderRecord(); } catch(e){}
+
+            // Update status banner immediately
+            statusBox.classList.toggle("orange", (newStatus||"pending") !== "approved");
+            statusBox.innerHTML = `<strong>Status:</strong> ${statusPill(newStatus||"pending")} <span style="margin-left:10px;"></span> <strong>User:</strong> <span class="mono">${u2.username}</span>`;
+
+            // Rebuild kv with updated feedback/status
+            const updatedFields = [
+              ["Requirement", s2.requirement || "—"],
+              ["Date completed", s2.dateCompleted || "—"],
+              ["Description", s2.summary || "—"],
+              ["Verified by", reviewer || "—"],
+              ["Admin feedback", newFeedback || "—"]
+            ];
+            kv.innerHTML = updatedFields.map(([k,v]) => {
+              const safe = String(v ?? "—").replace(/</g,"&lt;");
+              return `<div class="item"><div class="k">${k}</div><div class="v">${safe}</div></div>`;
+            }).join("");
+
+          } catch(err) {
+            hideUploadOverlay();
+            showMsg(reviewMsg, "Sync failed: " + err.toString() + ". Please try again.", true);
+          }
+        };
+      } else if(panel){
+        panel.style.display = "none";
+      }
+
+      modal.classList.add("open");
+    }
+
+    function closeSubmissionDetail(){
+      const modal = document.getElementById("subDetailModal");
+      if(modal) modal.classList.remove("open");
+    }
+
+    
+    function openUserProfile(username){
+      const admin = requireAdmin();
+      if(!admin) return;
+      const db = loadDB();
+      const u = findUser(db, username);
+      if(!u) return;
+
+      const modal = document.getElementById("userProfileModal");
+      const title = document.getElementById("userProfileTitle");
+      const sub = document.getElementById("userProfileSub");
+      const kv = document.getElementById("userProfileKV");
+      const statsKV = document.getElementById("userProfileStatsKV");
+      const body = document.getElementById("userProfileSubsBody");
+      const reqBody = document.getElementById("userProfileReqBody");
+      const exportReqBtn = document.getElementById("exportStudentReqBtn");
+      const exportBtn = document.getElementById("exportStudentSubsBtn");
+
+      const display = (((u.firstName||"") + " " + (u.lastName||"")).trim()) || (u.email||u.username);
+      title.textContent = "Student record";
+      sub.innerHTML = `<span class="mono">${display}</span> — <span class="mono">${(u.email||u.username)}</span>`;
+
+      const created = u.createdAt ? new Date(u.createdAt).toLocaleString() : "—";
+      const lastLogin = u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "—";
+
+      kv.innerHTML = [
+        ["First name", u.firstName || "—"],
+        ["Last name", u.lastName || "—"],
+        ["Email", (u.email || u.username || "—")],
+        ["Role", u.role || "—"],
+        ["Created", created],
+        ["Last login", lastLogin]
+      ].map(([k,v]) => `<div class="item"><div class="k">${k}</div><div class="v">${String(v).replace(/</g,"&lt;")}</div></div>`).join("");
+
+      const subs = [...(u.submissions||[])].sort((a,b) => (b.at||"").localeCompare(a.at||""));
+      const counts = { pending:0, approved:0, denied:0 };
+      subs.forEach(s => { counts[(s.status||"pending")] = (counts[(s.status||"pending")]||0) + 1; });
+      statsKV.innerHTML = [
+        ["Total submissions", String(subs.length)],
+        ["Approved", String(counts.approved||0)],
+        ["Pending", String(counts.pending||0)],
+        ["Denied", String(counts.denied||0)]
+      ].map(([k,v]) => `<div class="item"><div class="k">${k}</div><div class="v">${String(v).replace(/</g,"&lt;")}</div></div>`).join("");
+
+      // Requirements status (most recent submission per requirement, if any)
+      const latestByReq = new Map();
+      (u.submissions || []).forEach(s => {
+        const key = (s.requirement || "").trim();
+        if(!key) return;
+        const prev = latestByReq.get(key);
+        const a = (s.reviewedAt || s.at || "");
+        const b = prev ? (prev.reviewedAt || prev.at || "") : "";
+        if(!prev || a.localeCompare(b) > 0) latestByReq.set(key, s);
+      });
+
+      if(reqBody){
+        reqBody.innerHTML = REQUIREMENTS.map(req => {
+          const s = latestByReq.get(req);
+          const safeReq = String(req).replace(/</g,"&lt;");
+          const latest = s ? (s.reviewedAt || s.at || "") : "";
+          const latestDisp = latest ? new Date(latest).toLocaleString() : "—";
+          const safeLatest = String(latestDisp).replace(/</g,"&lt;");
+          const st = s ? (s.status || "pending") : ""; // empty -> Not submitted
+          const openBtn = s
+            ? `<button class="btn small" type="button" data-view-sub="${u.username}::${s.id}">Open</button>`
+            : `<button class="btn small ghost" type="button" disabled>—</button>`;
+          return `<tr>
+            <td>${safeReq}</td>
+            <td>${safeLatest}</td>
+            <td>${statusPill(st)}</td>
+            <td>${openBtn}</td>
+          </tr>`;
+        }).join("");
+      }
+
+      if(exportReqBtn){
+        exportReqBtn.setAttribute("data-export-req-user", u.username);
+      }
+
+
+      if(!subs.length){
+        body.innerHTML = `<tr><td colspan="4">No submissions for this student yet.</td></tr>`;
+      } else {
+        body.innerHTML = subs.map(s => {
+          const req = (s.requirement||"—").replace(/</g,"&lt;");
+          const dt = (s.dateCompleted||"—").replace(/</g,"&lt;");
+          const fileIcon = (s.driveLink && s.driveLink.trim()) ? '<svg width="14" height="14" fill="none" stroke="var(--np-navy)" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;" title="File attached"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>' : '';
+          return `<tr>
+            <td>${fileIcon}${req}</td>
+            <td>${dt}</td>
+            <td>${statusPill(s.status||"pending")}</td>
+            <td><button class="btn small" type="button" data-view-sub="${u.username}::${s.id}">Open</button></td>
+          </tr>`;
+        }).join("");
+      }
+
+      if(exportBtn){
+        exportBtn.setAttribute("data-export-user", u.username);
+      }
+
+      // Wire the status reminder email button
+      const reminderBtn = document.getElementById("sendStatusReminderBtn");
+      if(reminderBtn){
+        reminderBtn.onclick = () => {
+          const to = (u.email || u.username || "").trim();
+          if(!to){ alert("No email address found for this student."); return; }
+          const mail = buildStatusReminderEmail(u);
+          openMailDraft(to, mail.subject, mail.body);
+        };
+      }
+
+      modal.classList.add("open");
+    }
+
+    function closeUserProfile(){
+      const modal = document.getElementById("userProfileModal");
+      if(modal) modal.classList.remove("open");
+    }
+
+    function exportStudentSubmissionsCSV(username){
+      const admin = requireAdmin();
+      if(!admin) return;
+      const db = loadDB();
+      const u = findUser(db, username);
+      if(!u) return;
+
+      const rows = [["submission_id","requirement","date_completed","location","organizer","summary","reflection","verified_by","status","admin_feedback","reviewed_by","reviewed_at","created_at"]];
+      (u.submissions||[]).forEach(s => {
+        rows.push([
+          s.id || "",
+          s.requirement || "",
+          s.dateCompleted || "",
+          s.location || "",
+          s.organizer || "",
+          s.summary || "",
+          s.reflection || "",
+          s.verifiedBy || "",
+          s.status || "pending",
+          s.feedback || "",
+          s.reviewedBy || "",
+          s.reviewedAt || "",
+          s.at || ""
+        ]);
+      });
+
+      downloadCSV(`submissions_${(u.lastName||"student")}_${(u.firstName||"")}.csv`, rows);
+    }
+
+
+    function exportStudentRequirementsCSV(username){
+      const db = loadDB();
+      const u = findUser(db, username);
+      if(!u) return;
+
+      // most recent submission per requirement
+      const latestByReq = new Map();
+      (u.submissions || []).forEach(s => {
+        const key = (s.requirement || "").trim();
+        if(!key) return;
+        const prev = latestByReq.get(key);
+        const a = (s.reviewedAt || s.at || "");
+        const b = prev ? (prev.reviewedAt || prev.at || "") : "";
+        if(!prev || a.localeCompare(b) > 0) latestByReq.set(key, s);
+      });
+
+      const rows = REQUIREMENTS.map(req => {
+        const s = latestByReq.get(req);
+        const latest = s ? (s.reviewedAt || s.at || "") : "";
+        const latestDisp = latest ? new Date(latest).toLocaleString() : "";
+        const status = s ? (s.status || "pending") : "not_submitted";
+        const feedback = s ? (s.feedback || "") : "";
+        return {
+          first_name: u.firstName || "",
+          last_name: u.lastName || "",
+          email: u.email || u.username || "",
+          requirement: req,
+          status,
+          latest_activity: latestDisp,
+          feedback
+        };
+      });
+
+      const csv = toCSV(rows);
+      downloadText(csv, `requirements_${sanitizeFile(username)}.csv`, "text/csv");
+    }
+
+
+function renderSubmitResult(){
+      const successBanner = document.getElementById("successBanner");
+      const errorBanner = document.getElementById("errorBanner");
+      const errorBannerMessage = document.getElementById("errorBannerMessage");
+      const body = document.getElementById("submitResultSummaryBody");
+
+      if(!successBanner || !errorBanner || !body) return;
+
+      const last = getLastSubmit();
+      if(!last){
+        // No submission yet
+        errorBanner.classList.remove("hidden");
+        successBanner.classList.add("hidden");
+        errorBannerMessage.textContent = "No submission found. Please submit from the Submit page.";
+        body.innerHTML = `<tr><td colspan="2">No submission recorded.</td></tr>`;
+        return;
+      }
+
+      if(last.ok){
+        // SUCCESS!
+        successBanner.classList.remove("hidden");
+        errorBanner.classList.add("hidden");
+        
+        const rows = [
+          ["Category", last.requirement || "—"],
+          ["Date Submitted", new Date().toLocaleDateString() || "—"],
+          ["Status", "<strong style='color: #059669;'>✓ Pending Review</strong>"]
+        ];
+        body.innerHTML = rows.map(([k,v]) => `<tr><td><strong>${k}</strong></td><td>${v}</td></tr>`).join("");
+      } else {
+        // ERROR
+        errorBanner.classList.remove("hidden");
+        successBanner.classList.add("hidden");
+        errorBannerMessage.textContent = last.message || "Something went wrong. Please try again.";
+        body.innerHTML = `<tr><td colspan="2">No submission was recorded.</td></tr>`;
+      }
+    }
+
+
+    function setAuthUI(){
+      const user = getSession();
+      const badge = document.getElementById("userBadge");
+      const badgeName = document.getElementById("userBadgeName");
+      const signOutBtn = document.getElementById("signOutBtn");
+      const adminLink = document.getElementById("adminLink");
+
+      if(!user) {
+        badge.classList.add("hidden");
+        signOutBtn.classList.add("hidden");
+        adminLink.classList.add("hidden");
+        return;
+      }
+
+      badge.classList.remove("hidden");
+      const display = ((user.firstName||"") + " " + (user.lastName||"")).trim() || (user.email||user.username);
+      badgeName.textContent = display + " (" + user.role + ")";
+      badge.classList.toggle("admin", isAdmin(user));
+
+      signOutBtn.classList.remove("hidden");
+      adminLink.classList.toggle("hidden", !isAdmin(user));
+    }
+
+    function requireAuth(){
+      const user = getSession();
+      if(!user) {
+        location.hash = "#login";
+        return null;
+      }
+      return user;
+    }
+
+    function requireAdmin(){
+      const user = requireAuth();
+      if(!user) return null;
+      if(!isAdmin(user)) {
+        location.hash = "#home";
+        return null;
+      }
+      return user;
+    }
+
+    function routeGuard(){
+      // If they try to access protected routes without being logged in, bounce to login
+      const openRoutes = new Set(["#login", "#register", "#requirements", ""]);
+      const hash = location.hash || "";
+      if(openRoutes.has(hash)) return;
+
+      const user = requireAuth();
+      if(!user) return;
+
+      if(hash === "#admin" && !isAdmin(user)) {
+        location.hash = "#home";
+      }
+    }
+
+    // =========================
+    // Record rendering
+    // =========================
+    function statusPill(status){
+      if(status === "approved") return '<span class="status done">Approved</span>';
+      if(status === "denied") return '<span class="status missing">Denied</span>';
+      if(status === "pending") return '<span class="status pending">Pending review</span>';
+      return '<span class="status missing">Not submitted</span>';
+    }
+
+    async function renderRecord(){
+      const user = requireAuth();
+      if(!user) return;
+
+      const tbody = document.getElementById("recordTableBody");
+      const subBody = document.getElementById("submissionsTableBody");
+      const lastUpdated = document.getElementById("recordLastUpdated");
+
+      tbody.innerHTML = `<tr><td colspan="5">Loading…</td></tr>`;
+      subBody.innerHTML = `<tr><td colspan="4">Loading…</td></tr>`;
+
+      let submissions = [];
+      try {
+        updateSyncStatus('syncing', 'Loading...');
+        const result = await jsonpRequest({ action: 'GET_SUBMISSIONS', email: user.username });
+        if(result && result.success && Array.isArray(result.submissions)){
+          submissions = result.submissions;
+          _currentUser.submissions = submissions;
+          const u = findUser(_memDB, user.username);
+          if(u) u.submissions = submissions;
+        }
+        updateSyncStatus('synced', 'Synced');
+      } catch(err) {
+        updateSyncStatus('error', 'Load failed');
+        tbody.innerHTML = `<tr><td colspan="5">Could not load your record. Please refresh.</td></tr>`;
+        subBody.innerHTML = `<tr><td colspan="4">Could not load your record. Please refresh.</td></tr>`;
+        return;
+      }
+
+      const latestAt = submissions.length ? submissions.map(s => s.at||s.createdAt||"").sort().slice(-1)[0] : null;
+      lastUpdated.textContent = latestAt ? new Date(latestAt).toLocaleString() : "—";
+
+      // Requirements summary (use most recent submission per requirement)
+      const byReq = new Map();
+      for(const s of submissions) {
+        const key = s.requirement;
+        const prev = byReq.get(key);
+        if(!prev || ((s.at||"") > (prev.at||""))) byReq.set(key, s);
+      }
+
+      tbody.innerHTML = REQUIREMENTS.map(req => {
+        const s = byReq.get(req);
+        const status = s ? (s.status || "pending") : "none";
+        const date = s ? (s.dateCompleted || "—") : "—";
+        const verifiedBy = (status === "approved") ? (s.verifiedBy || "Admin") : "—";
+        const openBtn = s
+          ? `<button class="btn small" type="button" data-view-sub="${user.username}::${s.id}">Open</button>`
+          : `<span style="color:var(--np-gray-500);font-size:12px;">—</span>`;
+        return `<tr>
+          <td>${req}</td>
+          <td>${statusPill(status)}</td>
+          <td>${date}</td>
+          <td>${verifiedBy}</td>
+          <td>${openBtn}</td>
+        </tr>`;
+      }).join("");
+
+      // Submissions list (latest first)
+      const sorted = [...submissions].sort((a,b) => ((b.at||b.createdAt||"")).localeCompare((a.at||a.createdAt||"")));
+      subBody.innerHTML = sorted.length ? sorted.map(s => {
+        const fileIcon = (s.driveLink && s.driveLink.trim()) ? '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>' : '';
+        return `<tr>
+          <td>${fileIcon}${s.requirement}</td>
+          <td>${s.dateCompleted || "—"}</td>
+          <td>${statusPill(s.status || "pending")}</td>
+          <td><button class="btn small" type="button" data-view-sub="${user.username}::${s.id}">Open</button></td>
+        </tr>`;
+      }).join("") : `<tr><td colspan="4">No submissions yet.</td></tr>`;
+    }
+
+    // =========================
+    // Admin rendering
+    // =========================
+    async function renderAdminUsers(skipFetch){
+      const admin = requireAdmin();
+      if(!admin) return;
+
+      const body = document.getElementById("adminUsersBody");
+      const select = document.getElementById("reviewUserSelect");
+
+      // Only fetch from Sheets if not just re-rendering for filters/pagination
+      if(!skipFetch){
+        body.innerHTML = `<tr><td colspan="5">Loading…</td></tr>`;
+        try {
+          updateSyncStatus('syncing', 'Loading...');
+          const result = await jsonpRequest({ action: 'GET_ALL_USERS' });
+          if(result.success && Array.isArray(result.users)){
+            _adminUsersCache = result.users;
+            _memDB.users = _adminUsersCache.map(u => ({
+              ...u,
+              username: u.email || u.username,
+              submissions: u.submissions || []
+            }));
+          }
+          updateSyncStatus('synced', 'Synced');
+        } catch(err) {
+          updateSyncStatus('error', 'Load failed');
+          body.innerHTML = `<tr><td colspan="5">Could not load accounts. Please refresh.</td></tr>`;
+          return;
+        }
+      }
+
+      const users = _adminUsersCache;
+
+      // Account filters
+      const fFirst = (document.getElementById("accSearchFirst")?.value || "").trim().toLowerCase();
+      const fLast  = (document.getElementById("accSearchLast")?.value  || "").trim().toLowerCase();
+      const fEmail = (document.getElementById("accSearchEmail")?.value || "").trim().toLowerCase();
+      const fRole  = (document.getElementById("accFilterRole")?.value  || "").trim().toLowerCase();
+
+      const filteredUsers = users.filter(u => {
+        const fn = (u.firstName||"").toLowerCase();
+        const ln = (u.lastName||"").toLowerCase();
+        const em = (u.email||u.username||"").toLowerCase();
+        const rl = (u.role||"").toLowerCase();
+        if(fFirst && !fn.includes(fFirst)) return false;
+        if(fLast  && !ln.includes(fLast)) return false;
+        if(fEmail && !em.includes(fEmail)) return false;
+        if(fRole  && rl !== fRole) return false;
+        return true;
+      });
+
+      // Pagination
+      const totalPages = Math.max(1, Math.ceil(filteredUsers.length / _adminPageSize));
+      if(_adminCurrentPage > totalPages) _adminCurrentPage = totalPages;
+      if(_adminCurrentPage < 1) _adminCurrentPage = 1;
+      const start = (_adminCurrentPage - 1) * _adminPageSize;
+      const pageUsers = filteredUsers.slice(start, start + _adminPageSize);
+
+      // Render page info
+      const pageInfo = document.getElementById("accPageInfo");
+      const prevBtn  = document.getElementById("accPrevPage");
+      const nextBtn  = document.getElementById("accNextPage");
+      if(pageInfo) pageInfo.textContent = filteredUsers.length
+        ? `Showing ${start+1}–${Math.min(start+_adminPageSize, filteredUsers.length)} of ${filteredUsers.length} account${filteredUsers.length===1?"":"s"} (page ${_adminCurrentPage} of ${totalPages})`
+        : "No accounts match your filters.";
+      if(prevBtn) prevBtn.disabled = (_adminCurrentPage <= 1);
+      if(nextBtn) nextBtn.disabled = (_adminCurrentPage >= totalPages);
+
+      if(!pageUsers.length){
+        body.innerHTML = `<tr><td colspan="5">No accounts match your filters.</td></tr>`;
+      } else {
+        body.innerHTML = pageUsers.map(u => {
+          const username = u.email || u.username;
+          const roleOptions = ["student","admin"].map(r => `<option value="${r}" ${u.role===r?"selected":""}>${r}</option>`).join("");
+          const email = (u.email || u.username || "—");
+          return `<tr>
+            <td>${(u.firstName||"—")}</td>
+            <td>${(u.lastName||"—")}</td>
+            <td class="mono">${email}</td>
+            <td>
+              <select data-role-user="${username}">
+                ${roleOptions}
+              </select>
+            </td>
+            <td>
+              <button class="btn small ghost" type="button" data-view-user="${username}">View</button>
+              <button class="btn small" type="button" data-save-role="${username}">Save</button>
+              <button class="btn small ghost" type="button" data-reset-pass="${username}">Reset</button>
+            </td>
+          </tr>`;
+        }).join("");
+      }
+
+      // Populate review dropdown (use full unfiltered list)
+      select.innerHTML = users
+        .map(u => {
+          const username = u.email || u.username;
+          const label = (((u.lastName||"") + ", " + (u.firstName||"")).replace(/^,\s*/,"")).trim() || username;
+          return `<option value="${username}">${label} — ${username}</option>`;
+        })
+        .join("");
+
+      // Keep selection stable
+      const current = select.getAttribute("data-current");
+      if(current && users.some(u => (u.email||u.username) === current)) {
+        select.value = current;
+      } else {
+        const firstUser = users[0];
+        select.value = firstUser ? (firstUser.email || firstUser.username) : "";
+        select.setAttribute("data-current", select.value);
+      }
+
+      renderAdminAllSubmissions();
+      renderAdminSubmissions(select.value);
+    }
+
+    // Stub — by-user view removed, kept for compatibility with save handlers
+    function renderAdminSubmissions(){ }
+
+    
+    function renderAdminAllSubmissions(){
+      const admin = requireAdmin();
+      if(!admin) return;
+      const db = loadDB();
+      const body = document.getElementById("adminAllSubmissionsBody");
+      if(!body) return;
+
+      // Build a lookup of user display info
+      const userInfo = {};
+      for(const u of db.users){
+        const key = (u.email || u.username || "").toLowerCase();
+        userInfo[key] = {
+          firstName: u.firstName || "",
+          lastName: u.lastName || "",
+          email: u.email || u.username || ""
+        };
+      }
+
+      const rows = [];
+      for(const u of db.users){
+        for(const s of (u.submissions||[])){
+          rows.push({ username: u.username, firstName: u.firstName||"", lastName: u.lastName||"", requirement: s.requirement, dateCompleted: s.dateCompleted, location: s.location, status: (s.status||"pending"), id: s.id, at: s.at, driveLink: s.driveLink||"", fileName: s.fileName||"" });
+        }
+      }
+      rows.sort((a,b) => (b.at||"").localeCompare(a.at||""));
+
+      // Apply filters
+      const fName   = (document.getElementById("subSearchName")?.value   || "").trim().toLowerCase();
+      const fStatus = (document.getElementById("subFilterStatus")?.value || "").trim().toLowerCase();
+
+      const filtered = rows.filter(r => {
+        if(fName){
+          const haystack = ((r.firstName||"") + " " + (r.lastName||"") + " " + (r.username||"")).toLowerCase();
+          if(!haystack.includes(fName)) return false;
+        }
+        if(fStatus && r.status !== fStatus) return false;
+        return true;
+      });
+
+      if(!filtered.length){
+        body.innerHTML = `<tr><td colspan="5">${rows.length ? "No submissions match your filters." : "No submissions yet."}</td></tr>`;
+        return;
+      }
+
+      body.innerHTML = filtered.map(r => {
+        const key = `${r.username}::${r.id}`;
+        const fileIcon = (r.driveLink && r.driveLink.trim()) ? '<svg width="14" height="14" fill="none" stroke="var(--np-navy)" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;" title="File attached"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>' : '';
+        const displayName = ((r.firstName + " " + r.lastName).trim()) || r.username;
+        return `<tr>
+          <td>${displayName.replace(/</g,"&lt;")}</td>
+          <td>${fileIcon}${r.requirement}</td>
+          <td>${r.dateCompleted || "—"}</td>
+          <td>${statusPill(r.status)}</td>
+          <td><button class="btn small" type="button" data-view-sub="${key}">View</button></td>
+        </tr>`;
+      }).join("");
+    }
+
+// =========================
+    // CSV export (Excel-friendly)
+    // =========================
+    function downloadCSV(filename, rows){
+      const escapeCell = (v) => {
+        const s = (v ?? "").toString();
+        if(/[",\n]/.test(s)) return '"' + s.replace(/"/g,'""') + '"';
+        return s;
+      };
+      const csv = rows.map(r => r.map(escapeCell).join(",")).join("\n");
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportAccountsLog(){
+      requireAdmin();
+      const db = loadDB();
+      const rows = [["action","username","role","at"]];
+      for(const e of (db.logs.accounts||[])) {
+        rows.push([e.action, e.username, e.role, e.at]);
+      }
+      // Also include current snapshot
+      rows.push(["--snapshot--","","",""]);
+      for(const u of db.users) {
+        rows.push(["user", u.username, u.role, u.createdAt]);
+      }
+      downloadCSV("fep_accounts_log.csv", rows);
+    }
+
+    function exportSubmissionsLog(){
+      requireAdmin();
+      const db = loadDB();
+      const rows = [["id","username","name","email","requirement","date_completed","status","created_at","location","organizer","summary","reflection"]];
+      for(const u of db.users) {
+        for(const s of (u.submissions||[])) {
+          rows.push([s.id, u.username, (u.name||""), (u.email||""), s.requirement, s.dateCompleted, s.status||"pending", s.at, s.location||"", s.organizer||"", (s.summary||""), (s.reflection||"")]);
+        }
+      }
+      downloadCSV("fep_submissions_log.csv", rows);
+    }
+
+    // =========================
+    // Upload overlay helpers
+    // =========================
+    function showUploadOverlay(text, sub) {
+      document.getElementById('uploadOverlay').classList.add('active');
+      document.getElementById('uploadOverlayText').textContent = text || 'Uploading…';
+      document.getElementById('uploadOverlaySub').textContent  = sub  || 'Please don’t close this tab';
+      document.getElementById('uploadProgressBar').style.width = '0%';
+    }
+    function setUploadProgress(pct, text) {
+      document.getElementById('uploadProgressBar').style.width = pct + '%';
+      if(text) document.getElementById('uploadOverlayText').textContent = text;
+    }
+    function hideUploadOverlay() {
+      document.getElementById('uploadOverlay').classList.remove('active');
+    }
+
+    // =========================
+    // Wiring
+    // =========================
+    function init(){
+      setAuthUI();
+      routeGuard();
+
+      // Sign out
+      document.getElementById("signOutBtn").addEventListener("click", () => {
+        clearSession();
+        setAuthUI();
+        location.hash = "#login";
+      });
+
+      // Forgot password (two-step: verify identity → set new password)
+      var forgotModal   = document.getElementById("forgotPassModal");
+      var forgotBtn     = document.getElementById("forgotPassBtn");
+      var closeForgot   = document.getElementById("closeForgotPassBtn");
+      var submitForgot  = document.getElementById("submitForgotPassBtn");
+      var submitNewPass = document.getElementById("submitNewPassBtn");
+      var _verifiedUser = null; // holds matched user after step 1
+
+      function resetForgotModal() {
+        _verifiedUser = null;
+        document.getElementById("forgotStep1").classList.remove("hidden");
+        document.getElementById("forgotStep2").classList.add("hidden");
+        document.getElementById("forgotPassMsg").classList.add("hidden");
+        document.getElementById("forgotPassTitle").textContent = "Reset Password";
+        document.getElementById("forgotPassSubtitle").textContent = "Enter your N Number and school email to verify your identity.";
+        document.getElementById("forgotNnum").value = "";
+        document.getElementById("forgotEmail").value = "";
+        document.getElementById("forgotNewPass").value = "";
+        document.getElementById("forgotNewPass2").value = "";
+      }
+
+      if (forgotBtn)   forgotBtn.addEventListener("click", function() { forgotModal.classList.add("open"); });
+      if (closeForgot) closeForgot.addEventListener("click", function() {
+        forgotModal.classList.remove("open");
+        resetForgotModal();
+      });
+      if (forgotModal) forgotModal.addEventListener("click", function(ev) {
+        if (ev.target === forgotModal) { forgotModal.classList.remove("open"); resetForgotModal(); }
+      });
+
+      // Step 1 — verify identity
+      if (submitForgot) submitForgot.addEventListener("click", async function() {
+        var msg   = document.getElementById("forgotPassMsg");
+        var nnum  = document.getElementById("forgotNnum").value.trim().toUpperCase();
+        var email = document.getElementById("forgotEmail").value.trim().toLowerCase();
+        hideMsg(msg);
+
+        if (!nnum || !/^N\d{7,8}$/i.test(nnum)) { showMsg(msg, "Please enter a valid N Number.", true); return; }
+        if (!email || !email.endsWith("@newpaltz.edu")) { showMsg(msg, "Please enter your @newpaltz.edu email.", true); return; }
+
+        showUploadOverlay("Verifying identity\u2026", "Please wait");
+        setUploadProgress(50);
+
+        try {
+          var result = await jsonpRequest({ action: 'GET_ALL_USERS' });
+          var users  = (result && result.success) ? (result.users || []) : [];
+          var match  = null;
+          for (var fi = 0; fi < users.length; fi++) {
+            if ((users[fi].nnum||"").toUpperCase() === nnum &&
+                (users[fi].email||users[fi].username||"").toLowerCase() === email) {
+              match = users[fi]; break;
+            }
+          }
+
+          setUploadProgress(100, "Done!");
+          await new Promise(function(r){ setTimeout(r, 300); });
+          hideUploadOverlay();
+
+          if (!match) {
+            showMsg(msg, "No account found with that N Number and email combination.", true);
+            return;
+          }
+
+          // Identity verified — move to step 2
+          _verifiedUser = match;
+          document.getElementById("forgotStep1").classList.add("hidden");
+          document.getElementById("forgotStep2").classList.remove("hidden");
+          document.getElementById("forgotPassTitle").textContent = "Set New Password";
+          document.getElementById("forgotPassSubtitle").textContent = "Verified: " + (match.firstName || email);
+          hideMsg(msg);
+
+        } catch(err) {
+          hideUploadOverlay();
+          showMsg(msg, "Could not connect. Please try again.", true);
+        }
+      });
+
+      // Step 2 — save new password
+      if (submitNewPass) submitNewPass.addEventListener("click", async function() {
+        var msg  = document.getElementById("forgotPassMsg");
+        var p1   = document.getElementById("forgotNewPass").value;
+        var p2   = document.getElementById("forgotNewPass2").value;
+        hideMsg(msg);
+
+        if (!_verifiedUser) { showMsg(msg, "Session expired. Please start over.", true); return; }
+        if (p1.length < 4)  { showMsg(msg, "Password must be at least 4 characters.", true); return; }
+        if (p1 !== p2)      { showMsg(msg, "Passwords do not match.", true); return; }
+
+        showUploadOverlay("Saving new password\u2026", "Please wait");
+        setUploadProgress(40);
+
+        try {
+          await syncToSheets('PASSWORD_CHANGE', {
+            username:  _verifiedUser.email || _verifiedUser.username,
+            password:  encodePassword(p1),
+            timestamp: nowISO()
+          });
+
+          setUploadProgress(100, "Password updated!");
+          await new Promise(function(r){ setTimeout(r, 400); });
+          hideUploadOverlay();
+
+          // Success — close modal and go to login
+          forgotModal.classList.remove("open");
+          resetForgotModal();
+
+          // Show brief success message on login page
+          var loginMsg = document.getElementById("loginMsg");
+          if (loginMsg) showMsg(loginMsg, "Password updated successfully. Please sign in.", false);
+
+        } catch(err) {
+          hideUploadOverlay();
+          showMsg(msg, "Failed to save password. Please try again.", true);
+        }
+      });
+
+      // Login
+      const loginForm = document.getElementById("loginForm");
+      // Password visibility toggle
+      const togglePasswordBtn = document.getElementById("togglePassword");
+      const passwordField = document.getElementById("np-password");
+      const eyeIcon = document.getElementById("eyeIcon");
+      
+      if (togglePasswordBtn && passwordField) {
+        togglePasswordBtn.addEventListener("click", () => {
+          const type = passwordField.type === "password" ? "text" : "password";
+          passwordField.type = type;
+          
+          // Update icon
+          if (type === "text") {
+            eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>`;
+          } else {
+            eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+          }
+        });
+      }
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const msg = document.getElementById("loginMsg");
+        hideMsg(msg);
+
+        const username = document.getElementById("np-email").value.trim().toLowerCase();
+        const password = document.getElementById("np-password").value;
+
+        showMsg(msg, "Verifying credentials...", false);
+
+        try {
+          const result = await jsonpRequest({ action: 'LOGIN', email: username, password: password });
+
+          if (result && result.success && result.user) {
+            const user = {
+              username:  result.user.email || result.user.username,
+              email:     result.user.email || result.user.username,
+              firstName: result.user.firstName,
+              lastName:  result.user.lastName,
+              nnum:      result.user.nnum || '',
+              name: (result.user.firstName + ' ' + result.user.lastName).trim(),
+              role:      result.user.role,
+              submissions: []
+            };
+            setSession(user);
+            if (!findUser(_memDB, user.username)) {
+              _memDB.users.push(user);
+            } else {
+              Object.assign(findUser(_memDB, user.username), user);
+            }
+            setAuthUI();
+            hideMsg(msg);
+            location.hash = "#home";
+          } else {
+            showMsg(msg, (result && result.error) || "Incorrect email or password.", true);
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          showMsg(msg, "Could not connect. Please check your connection and try again.", true);
+        }
+      });
+
+      // Register
+      const regForm = document.getElementById("registerForm");
+      regForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        var msg = document.getElementById("registerMsg");
+        hideMsg(msg);
+
+        var firstName     = document.getElementById("reg-first").value.trim();
+        var lastName      = document.getElementById("reg-last").value.trim();
+        var nnum          = document.getElementById("reg-nnum").value.trim().toUpperCase();
+        var email         = document.getElementById("reg-email").value.trim().toLowerCase();
+        var personalEmail = document.getElementById("reg-personal-email").value.trim().toLowerCase();
+        var p1 = document.getElementById("reg-pass").value;
+        var p2 = document.getElementById("reg-pass2").value;
+
+        if (!firstName || firstName.length < 2) { showMsg(msg, "Please enter your first name.", true); return; }
+        if (!lastName  || lastName.length  < 2) { showMsg(msg, "Please enter your last name.",  true); return; }
+        if (!nnum || !/^N\d{7,8}$/i.test(nnum)) { showMsg(msg, "Please enter a valid N Number (e.g. N00123456).", true); return; }
+        if (!email || !email.endsWith("@newpaltz.edu")) { showMsg(msg, "School email must end in @newpaltz.edu.", true); return; }
+        if (!personalEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalEmail)) { showMsg(msg, "Please enter a valid personal email.", true); return; }
+        if (personalEmail === email) { showMsg(msg, "Personal email must be different from your school email.", true); return; }
+        if (p1.length < 4) { showMsg(msg, "Password must be at least 4 characters.", true); return; }
+        if (p1 !== p2)     { showMsg(msg, "Passwords do not match.", true); return; }
+
+        showUploadOverlay("Creating your account\u2026", "Please wait");
+        setUploadProgress(20);
+
+        try {
+          // Check for duplicates
+          setUploadProgress(35, "Checking for existing account\u2026");
+          var existingUsers = [];
+          try {
+            var checkResult = await jsonpRequest({ action: 'GET_ALL_USERS' });
+            if (checkResult && checkResult.success) existingUsers = checkResult.users || [];
+          } catch(ce) { /* proceed — server will also validate */ }
+
+          for (var ui = 0; ui < existingUsers.length; ui++) {
+            var eu = existingUsers[ui];
+            if ((eu.nnum||"").toUpperCase() === nnum) {
+              hideUploadOverlay();
+              showMsg(msg, "An account with that N Number already exists.", true);
+              return;
+            }
+            if ((eu.email||eu.username||"").toLowerCase() === email) {
+              hideUploadOverlay();
+              showMsg(msg, "An account with that school email already exists.", true);
+              return;
+            }
+            if ((eu.personalEmail||"").toLowerCase() === personalEmail) {
+              hideUploadOverlay();
+              showMsg(msg, "An account with that personal email already exists.", true);
+              return;
+            }
+          }
+
+          setUploadProgress(65, "Saving your account\u2026");
+          await syncToSheets('ACCOUNT_CREATED', {
+            username:      email,
+            email:         email,
+            personalEmail: personalEmail,
+            firstName:     firstName,
+            lastName:      lastName,
+            nnum:          nnum,
+            role:          "student",
+            password:      encodePassword(p1),
+            timestamp:     nowISO()
+          });
+
+          setUploadProgress(100, "Account created!");
+          await new Promise(function(r){ setTimeout(r, 500); });
+          hideUploadOverlay();
+
+          // Success popup
+          var overlay = document.createElement("div");
+          overlay.style.cssText = "position:fixed;inset:0;background:rgba(2,6,23,.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;";
+          overlay.innerHTML = '<div style="background:#fff;border-radius:18px;padding:40px 36px;max-width:400px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(2,6,23,.35);">'
+            + '<div style="font-size:56px;margin-bottom:12px;">\u2713</div>'
+            + '<h2 style="margin:0 0 8px;font-size:24px;color:#003e7e;">Account Created!</h2>'
+            + '<p style="margin:0 0 20px;color:#475569;">Welcome, ' + firstName + '. You can now sign in with your New Paltz email.</p>'
+            + '<button id="regSuccessBtn" style="background:linear-gradient(180deg,#003e7e,#002e5e);color:#fff;border:none;border-radius:11px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;width:100%;">Go to Sign In</button>'
+            + '</div>';
+          document.body.appendChild(overlay);
+          document.getElementById("regSuccessBtn").onclick = function() {
+            document.body.removeChild(overlay);
+            regForm.reset();
+            location.hash = "#login";
+          };
+
+        } catch(err) {
+          hideUploadOverlay();
+          showMsg(msg, "Failed to create account. Please try again.", true);
+        }
+      });
+
+      // Submit
+      // ── Category → upload requirements map ──────────────────
+      var UPLOAD_REQUIRED = {
+        'Qualifying department event 1 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Qualifying department event 2 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Qualifying department event 3 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Qualifying department event 4 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Qualifying department event 5 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Qualifying department event 6 of 6 + reflection brief': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' },
+        'Bibliographic research training':                        { required: true, label: 'Upload Completion Certificate', hint: 'Upload your completion certificate. Max 10 MB.' },
+        'Research ethics training (CITI)':                        { required: true, label: 'Upload Completion Certificate', hint: 'Upload your CITI completion certificate. Max 10 MB.' },
+        'Professional development 1 (CRC CV/resume workshop)':   { required: true, label: 'Upload Draft Resume', hint: 'Upload your draft resume from the workshop. Max 10 MB.' },
+        'Professional development 2 (academic organization explorations)': { required: true, label: 'Upload Reflection Brief', hint: 'Upload your written reflection brief. Max 10 MB.' }
+      };
+      var NO_UPLOAD = {
+        'Anthropology Club meeting':                 'No documentation required for this category.',
+        'Capstone Seminar Symposium (before senior year)': 'No documentation required for this category.'
+      };
+      var MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
+
+      var reqTypeEl     = document.getElementById("req-type");
+      var uploadSection = document.getElementById("uploadSection");
+      var uploadLabel   = document.getElementById("uploadLabel");
+      var uploadHint    = document.getElementById("uploadHint");
+      var reqNotice     = document.getElementById("reqNotice");
+      var proofInputEl  = document.getElementById("proof");
+      var fileSizeError = document.getElementById("fileSizeError");
+
+      function updateUploadSection() {
+        var val = reqTypeEl.value;
+        fileSizeError.classList.add("hidden");
+        if (!val) {
+          uploadSection.classList.add("hidden");
+          reqNotice.classList.add("hidden");
+          return;
+        }
+        if (NO_UPLOAD[val]) {
+          uploadSection.classList.add("hidden");
+          reqNotice.textContent = NO_UPLOAD[val];
+          reqNotice.classList.remove("hidden");
+          reqNotice.classList.remove("orange");
+          return;
+        }
+        var info = UPLOAD_REQUIRED[val];
+        if (info) {
+          uploadSection.classList.remove("hidden");
+          uploadLabel.textContent = info.label;
+          uploadHint.textContent  = info.hint;
+          reqNotice.innerHTML = '<strong>Required:</strong> ' + info.label.replace('Upload ', '') + ' must be uploaded to submit.';
+          reqNotice.classList.remove("hidden");
+          reqNotice.classList.add("orange");
+        }
+      }
+
+      reqTypeEl.addEventListener("change", function() {
+        proofInputEl.value = "";
+        updateUploadSection();
+      });
+
+      // File size check on selection
+      proofInputEl.addEventListener("change", function() {
+        fileSizeError.classList.add("hidden");
+        if (proofInputEl.files && proofInputEl.files[0]) {
+          if (proofInputEl.files[0].size > MAX_FILE_BYTES) {
+            fileSizeError.textContent = "File is too large. Maximum size is 10 MB. Please choose a smaller file.";
+            fileSizeError.classList.remove("hidden");
+            proofInputEl.value = "";
+          }
+        }
+      });
+
+      const submitForm = document.getElementById("submitForm");
+      submitForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const user = requireAuth();
+        if(!user) return;
+
+        const msg = document.getElementById("submitMsg");
+        hideMsg(msg);
+
+        const requirement = document.getElementById("req-type").value;
+        const dateCompleted = new Date().toISOString().split('T')[0];
+        const summary = document.getElementById("summary").value.trim();
+
+        if(!requirement) {
+          setLastSubmit({ ok:false, message:"Please select a category before submitting." });
+          location.hash = "#submitresult";
+          return;
+        }
+
+        // Check if file is required but missing
+        var uploadInfo = UPLOAD_REQUIRED[requirement];
+        const proofInput = document.getElementById("proof");
+        const proofFile  = proofInput && proofInput.files && proofInput.files[0] ? proofInput.files[0] : null;
+
+        if (uploadInfo && uploadInfo.required && !proofFile) {
+          showMsg(msg, "A file upload is required for this category. Please upload " + uploadInfo.label.replace('Upload ','') + ".", true);
+          return;
+        }
+
+        // File size check
+        if (proofFile && proofFile.size > MAX_FILE_BYTES) {
+          showMsg(msg, "File is too large. Maximum allowed size is 10 MB.", true);
+          return;
+        }
+
+        let fileBase64   = null;
+        let fileName     = null;
+        let fileMimeType = null;
+
+        // Show full-screen overlay immediately
+        showUploadOverlay(proofFile ? 'Uploading your file…' : 'Submitting…', 'Please don’t close this tab');
+        setUploadProgress(10);
+
+        if (proofFile) {
+          try {
+            setUploadProgress(20, 'Reading file…');
+            fileBase64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload  = () => resolve(reader.result.split(',')[1]);
+              reader.onerror = reject;
+              reader.readAsDataURL(proofFile);
+            });
+            const ext       = proofFile.name.includes('.') ? proofFile.name.split('.').pop() : 'bin';
+            const safeReq   = requirement.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 40);
+            const safeNnum  = (user.nnum      || 'N0000000').replace(/[^a-zA-Z0-9]/g, '');
+            const safeLast  = (user.lastName  || '').replace(/[^a-zA-Z0-9]/g, '');
+            const safeFirst = (user.firstName || '').replace(/[^a-zA-Z0-9]/g, '');
+            fileName     = `${safeNnum}_${safeLast}_${safeFirst}_${safeReq}_${dateCompleted}.${ext}`;
+            fileMimeType = proofFile.type || 'application/octet-stream';
+            setUploadProgress(40, 'Saving your file…');
+          } catch(fileErr) {
+            hideUploadOverlay();
+            showMsg(msg, "Could not read file. Please try again.", true);
+            return;
+          }
+        }
+
+        try {
+          setUploadProgress(60, 'Saving submission…');
+          await syncToSheets('SUBMISSION_CREATED', {
+            username:     user.username,
+            studentName:  `${user.firstName} ${user.lastName}`,
+            nnum:         user.nnum      || '',
+            lastName:     user.lastName  || '',
+            firstName:    user.firstName || '',
+            submissionId: id,
+            requirement,
+            dateCompleted,
+            location:     '',
+            organizer:    '',
+            summary,
+            reflection:   '',
+            status:       'pending',
+            timestamp:    nowISO(),
+            fileBase64,
+            fileName,
+            fileMimeType
+          });
+
+          setUploadProgress(100, 'Submitted!');
+          await new Promise(r => setTimeout(r, 500));
+          hideUploadOverlay();
+
+          setLastSubmit({
+            ok:           true,
+            username:     user.username,
+            submissionId: id,
+            requirement,
+            dateCompleted,
+            hasFile:      !!proofFile,
+            at:           nowISO()
+          });
+
+          submitForm.reset();
+          location.hash = "#submitresult";
+        } catch(err) {
+          hideUploadOverlay();
+          setLastSubmit({ ok:false, message:"Failed to submit. Please try again." });
+          location.hash = "#submitresult";
+        }
+      });
+
+
+      // Close modal
+      document.getElementById("closeSubDetailBtn").addEventListener("click", closeSubmissionDetail);
+      document.getElementById("subDetailModal").addEventListener("click", (e) => {
+        if(e.target && e.target.id === "subDetailModal") closeSubmissionDetail();
+      });
+
+
+      window.addEventListener("keydown", (e) => {
+        if(e.key === "Escape") closeSubmissionDetail();
+      });
+
+      // Hash change: update UI + render
+      window.addEventListener("hashchange", () => {
+        setAuthUI();
+        routeGuard();
+        updateHeaderBackButton(); // Update back button visibility
+        const hash = location.hash || "#login";
+
+        if(hash === "#record") renderRecord();
+        if(hash === "#submitresult") renderSubmitResult();
+        if(hash === "#admin") {
+          renderAdminUsers();
+        }
+      });
+
+      // Admin interactions (event delegation)
+      document.addEventListener("click", async (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+
+        // Open submission detail (students can open own; admins can open any)
+        const viewKey = t.getAttribute("data-view-sub");
+        if(viewKey){
+          const [username, subId] = viewKey.split("::");
+          const current = requireAuth();
+          if(!current) return;
+          if(!isAdmin(current) && current.username.toLowerCase() !== String(username).toLowerCase()) return;
+          openSubmissionDetail(username, subId);
+          return;
+        }
+
+        // Exports menu toggle
+        if(t.id === "exportsToggleBtn"){
+          const menu = document.getElementById("exportsMenu");
+          const btn = document.getElementById("exportsToggleBtn");
+          if(menu && btn){
+            const open = !menu.classList.contains("hidden");
+            menu.classList.toggle("hidden", open);
+            btn.setAttribute("aria-expanded", String(!open));
+          }
+          return;
+        }
+
+        // Close profile modal
+        if(t.id === "closeUserProfileBtn"){ closeUserProfile(); return; }
+
+        // Export buttons
+        if(t.id === "exportAccountsBtn") { exportAccountsLog(); return; }
+        if(t.id === "exportSubmissionsBtn") { exportSubmissionsLog(); return; }
+
+        // Export a single student's requirements status
+        if(t.id === "exportStudentReqBtn"){
+          const u = t.getAttribute("data-export-req-user");
+          if(u) exportStudentRequirementsCSV(u);
+          return;
+        }
+
+        // Export a single student's submissions
+        if(t.id === "exportStudentSubsBtn"){
+          const u = t.getAttribute("data-export-user");
+          if(u) exportStudentSubmissionsCSV(u);
+          return;
+        }
+
+        // Open a student's record/profile (admin)
+        const viewUser = t.getAttribute("data-view-user");
+        if(viewUser){ openUserProfile(viewUser); return; }
+
+        // Save role
+        const roleUser = t.getAttribute("data-save-role");
+        if(roleUser) {
+          const sel = document.querySelector(`select[data-role-user="${CSS.escape(roleUser)}"]`);
+          const newRole = sel ? sel.value : null;
+          if(!newRole) return;
+
+          // Update in-memory db then sync to Sheets
+          const db = loadDB();
+          const u = findUser(db, roleUser);
+          if(u){ u.role = newRole; saveDB(db); }
+
+          syncToSheets('ROLE_CHANGED', {
+            username: roleUser,
+            newRole,
+            timestamp: nowISO()
+          });
+
+          setAuthUI();
+          renderAdminUsers();
+          return;
+        }
+
+        // Reset password (syncs to Sheets only)
+        const resetUser = t.getAttribute("data-reset-pass");
+        if(resetUser) {
+          syncToSheets('PASSWORD_RESET', {
+            username: resetUser,
+            timestamp: nowISO()
+          });
+          alert(`Password for ${resetUser} reset to: changeme`);
+          return;
+        }
+
+        // Save submission status
+        const saveSubKey = t.getAttribute("data-save-sub");
+        if(saveSubKey) {
+          const [username, subId] = saveSubKey.split("::");
+          const db = loadDB();
+          const u = findUser(db, username);
+          const sub = u ? (u.submissions||[]).find(s => s.id === subId) : null;
+          const sel = document.querySelector(`select[data-sub-status="${CSS.escape(saveSubKey)}"]`);
+          const newStatus = sel ? sel.value : "pending";
+          const reviewedAt = nowISO();
+
+          showUploadOverlay('Saving review…', 'Syncing with Google Sheets');
+          setUploadProgress(30);
+
+          try {
+            // Update in-memory
+            if(sub){
+              sub.status = newStatus;
+              sub.verifiedBy = (newStatus === "approved") ? "Admin" : null;
+              sub.reviewedAt = reviewedAt;
+              saveDB(db);
+            }
+
+            setUploadProgress(50, 'Updating record…');
+
+            // Sync to Google Sheets
+            await syncToSheets('SUBMISSION_STATUS_CHANGED', {
+              username,
+              studentName: u ? `${u.firstName} ${u.lastName}` : username,
+              submissionId: subId,
+              requirement: sub ? sub.requirement : '',
+              dateCompleted: sub ? sub.dateCompleted : '',
+              location: sub ? sub.location : '',
+              organizer: sub ? sub.organizer : '',
+              summary: sub ? sub.summary : '',
+              reflection: sub ? sub.reflection : '',
+              newStatus,
+              oldStatus: sub ? (sub.status || 'pending') : 'pending',
+              verifiedBy: (newStatus === "approved") ? "Admin" : null,
+              feedback: sub ? (sub.feedback || '') : '',
+              reviewedAt,
+              timestamp: reviewedAt
+            });
+
+            setUploadProgress(80, 'Refreshing data…');
+
+            // Re-fetch submissions so tables reflect latest sheet data
+            try {
+              const result = await jsonpRequest({ action: 'GET_SUBMISSIONS', email: username });
+              if(result && result.success && Array.isArray(result.submissions)){
+                if(u) u.submissions = result.submissions;
+              }
+            } catch(e){}
+
+            setUploadProgress(100, 'Done!');
+            await new Promise(r => setTimeout(r, 400));
+            hideUploadOverlay();
+
+            renderAdminSubmissions(username);
+            renderAdminAllSubmissions();
+          } catch(err) {
+            hideUploadOverlay();
+            alert('Sync failed: ' + err.toString());
+          }
+          return;
+        }
+      });
+
+      // Admin account filters (skip re-fetch, just re-render from cache)
+      ["accSearchFirst","accSearchLast","accSearchEmail"].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.addEventListener("input", () => {
+          if(location.hash === "#admin"){ _adminCurrentPage = 1; renderAdminUsers(true); }
+        });
+      });
+      const roleEl = document.getElementById("accFilterRole");
+      if(roleEl) roleEl.addEventListener("change", () => {
+        if(location.hash === "#admin"){ _adminCurrentPage = 1; renderAdminUsers(true); }
+      });
+
+      // Account pagination buttons
+      document.getElementById("accPrevPage").addEventListener("click", () => {
+        _adminCurrentPage = Math.max(1, _adminCurrentPage - 1);
+        renderAdminUsers(true);
+      });
+      document.getElementById("accNextPage").addEventListener("click", () => {
+        _adminCurrentPage++;
+        renderAdminUsers(true);
+      });
+
+      // Submission filters (name/email + status)
+      const subNameEl = document.getElementById("subSearchName");
+      if(subNameEl) subNameEl.addEventListener("input", () => {
+        if(location.hash === "#admin") renderAdminAllSubmissions();
+      });
+      const subStatusEl = document.getElementById("subFilterStatus");
+      if(subStatusEl) subStatusEl.addEventListener("change", () => {
+        if(location.hash === "#admin") renderAdminAllSubmissions();
+      });
+
+      // Close exports menu when clicking outside
+      document.addEventListener("click", (ev) => {
+        const menu = document.getElementById("exportsMenu");
+        const btn = document.getElementById("exportsToggleBtn");
+        if(!menu || !btn) return;
+        if(menu.classList.contains("hidden")) return;
+        const t = ev.target;
+        if(menu.contains(t) || btn.contains(t)) return;
+        menu.classList.add("hidden");
+        btn.setAttribute("aria-expanded","false");
+      }, { capture:true });
+
+
+      // Initial page actions
+      if(location.hash === "#record") renderRecord();
+      if(location.hash === "#submitresult") renderSubmitResult();
+      if(location.hash === "#admin") renderAdminUsers();
+    }
+
+    // Patch CSS-only routing for new pages
+    // (Extend the existing :target rules by toggling display in JS on load)
+    function ensureRegisterAndAdminDisplayRules(){
+      const pages = {
+        "#login": ".page-login",
+        "#register": ".page-register",
+        "#home": ".page-home",
+        "#requirements": ".page-req",
+        "#record": ".page-record",
+        "#submit": ".page-submit",
+        "#submitresult": ".page-submitresult",
+        "#admin": ".page-admin"
+      };
+      function showHash(){
+        const hash = location.hash || "#login";
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const sel = pages[hash] || ".page-login";
+        const el = document.querySelector(sel);
+        if(el) el.style.display = "block";
+      }
+      window.addEventListener("hashchange", showHash);
+      showHash();
+    }
+
+    // Update header back button visibility based on current page
+    function updateHeaderBackButton() {
+      const hash = location.hash || "#login";
+      const backBtn = document.getElementById("headerBackBtn");
+      if (!backBtn) return;
+
+      // Hide back button on login, register, and home pages
+      const hiddenPages = ["#login", "#register", "#home", ""];
+      if (hiddenPages.includes(hash)) {
+        backBtn.classList.add("hidden");
+      } else {
+        backBtn.classList.remove("hidden");
+        // Update href based on current page
+        if (hash === "#register") {
+          backBtn.href = "#login";
+        } else {
+          backBtn.href = "#home";
+        }
+      }
+    }
+
+    // Bootstrap
+    document.addEventListener("DOMContentLoaded", () => {
+      ensureRegisterAndAdminDisplayRules();
+      updateHeaderBackButton();
+      window.addEventListener("hashchange", () => {
+        updateHeaderBackButton();
+        routeGuard();
+        setAuthUI();
+        const hash = location.hash;
+        if(hash === "#record") renderRecord();
+        if(hash === "#submitresult") renderSubmitResult();
+        if(hash === "#admin") renderAdminUsers();
+      });
+      init();
+    });
+  </script>
+</body>
+</html>
